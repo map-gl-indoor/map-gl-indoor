@@ -1,0 +1,61 @@
+{
+  "name": "mapbox-gl-js-indoor",
+  "description": "Visualize multi-level buildings",
+  "main": "./dist/mapbox-gl-indoor.js",
+  "version": "0.0.1",
+  "browserify": {
+    "transform": [
+      "babelify",
+      "brfs"
+    ]
+  },
+  "scripts": {
+    "prepublish": "npm run build",
+    "start": "NODE_ENV=development budo examples/multiple-maps.js:examples/bundle.js --live --dir examples/indoor-maps -- -p tsify",
+    "build": "NODE_ENV=production mkdir -p dist && browserify -p tsify src/index.ts > dist/mapbox-gl-indoor.js",
+    "lint": "eslint --ext .js,.ts src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ThibaudM/mapbox-gl-js-indoor.git"
+  },
+  "keywords": [
+    "indoor",
+    "building",
+    "multi-level",
+    "floors",
+    "geojson",
+    "mapbox",
+    "mapboxgl",
+    "ui"
+  ],
+  "author": "Thibaud Michel",
+  "license": "MIT",
+  "peerDependencies": {
+    "mapbox-gl": "^1.10"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.6",
+    "@types/geojson": "^7946.0.7",
+    "@typescript-eslint/eslint-plugin": "^2.31.0",
+    "@typescript-eslint/parser": "^2.31.0",
+    "babelify": "^10.0.0",
+    "brfs": "^2.0.2",
+    "browserify": "^16.5.1",
+    "budo": "^11.6.3",
+    "eslint": "^6.8.0",
+    "eslint-config-mourner": "^3.0.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jsdoc": "^24.0.2",
+    "insert-css": "^2.0.0",
+    "tsify": "^4.0.1",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "@mapbox/geojson-types": "^1.0.2",
+    "@turf/distance": "^6.0.1",
+    "@types/mapbox-gl": "^1.9.1",
+    "geojson-bbox": "0.0.0",
+    "mapbox-gl": "^1.10.0"
+  }
+}

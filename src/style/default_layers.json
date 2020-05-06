@@ -1,0 +1,858 @@
+[
+    {
+        "filter": [
+          "any", [
+            "has",
+            "building"
+          ], [
+            "has",
+            "building-part"
+          ]
+        ],
+        "id": "buildings-background",
+        "type": "fill",
+        "source": "indoor",
+        "paint": {
+            "fill-color": "#DCD9D6",
+            "fill-opacity": {
+                "base": 1,
+                "stops": [
+                    [
+                        16.5,
+                        0
+                    ],
+                    [
+                        18,
+                        1
+                    ]
+                ]
+            }
+        }
+    },
+    {
+        "filter": [
+            "filter-==",
+            "indoor",
+            "level"
+        ],
+        "id": "level-background",
+        "type": "fill",
+        "source": "indoor",
+        "paint": {
+            "fill-color": "#DCD9D6",
+            "fill-opacity": {
+                "base": 1,
+                "stops": [
+                    [
+                        16.5,
+                        0
+                    ],
+                    [
+                        18,
+                        1
+                    ]
+                ]
+            }
+        }
+    },
+    {
+        "id": "indoor-gardens",
+        "type": "fill",
+        "source": "indoor",
+        "filter": [
+            "filter-==",
+            "leisure",
+            "garden"
+        ],
+        "layout": {
+            "visibility": "visible"
+        },
+        "paint": {
+            "fill-color": "#cde8a2",
+            "fill-opacity": {
+                "base": 1,
+                "stops": [
+                    [
+                        17,
+                        0
+                    ],
+                    [
+                        18,
+                        1
+                    ]
+                ]
+            }
+        }
+    },
+    {
+        "filter": [
+            "filter-==",
+            "amenity",
+            "parking"
+        ],
+        "id": "indoor-parkings",
+        "type": "fill",
+        "source": "indoor",
+        "paint": {
+            "fill-color": "#D7CCC8",
+            "fill-outline-color": "#000000",
+            "fill-opacity": {
+                "base": 1,
+                "stops": [
+                    [
+                        17,
+                        0
+                    ],
+                    [
+                        18,
+                        1
+                    ]
+                ]
+            }
+        }
+    },
+    {
+        "filter": [
+            "filter-==",
+            "amenity",
+            "parking"
+        ],
+        "id": "indoor-parkings-patterns",
+        "type": "fill",
+        "source": "indoor",
+        "paint": {
+            "fill-opacity": {
+                "base": 1,
+                "stops": [
+                    [
+                        17,
+                        0
+                    ],
+                    [
+                        18,
+                        0.1
+                    ]
+                ]
+            },
+            "fill-pattern": "si-main-3",
+            "fill-translate-anchor": "viewport"
+        }
+    },
+    {
+        "filter": [
+            "filter-==",
+            "indoor",
+            "corridor"
+        ],
+        "id": "indoor-corridors",
+        "type": "fill",
+        "source": "indoor",
+        "paint": {
+            "fill-color": "#D7CCC8",
+            "fill-opacity": {
+                "base": 1,
+                "stops": [
+                    [
+                        17,
+                        0
+                    ],
+                    [
+                        18,
+                        1
+                    ]
+                ]
+            }
+        }
+    },
+    {
+        "filter": [
+            "filter-==",
+            "indoor",
+            "room"
+        ],
+        "id": "indoor-rooms",
+        "type": "fill",
+        "source": "indoor",
+        "paint": {
+            "fill-color": "#A1887F",
+            "fill-opacity": {
+                "base": 1,
+                "stops": [
+                    [
+                        17,
+                        0
+                    ],
+                    [
+                        18,
+                        1
+                    ]
+                ]
+            }
+        }
+    },
+    {
+        "filter": [
+            "any",
+            [
+                "filter-==",
+                "indoor",
+                "room"
+            ],
+            [
+                "filter-==",
+                "indoor",
+                "area"
+            ]
+        ],
+        "id": "indoor-rooms-borders",
+        "type": "line",
+        "source": "indoor",
+        "paint": {
+            "line-color": "#000",
+            "line-width": 1,
+            "line-opacity": {
+                "base": 1,
+                "stops": [
+                    [
+                        17,
+                        0
+                    ],
+                    [
+                        18,
+                        1
+                    ]
+                ]
+            }
+        }
+    },
+    {
+        "filter": [
+            "filter-==",
+            "indoor",
+            "area"
+        ],
+        "id": "indoor-areas",
+        "type": "fill",
+        "source": "indoor",
+        "paint": {
+            "fill-color": "#D7CCC8",
+            "fill-opacity": {
+                "base": 1,
+                "stops": [
+                    [
+                        17,
+                        0
+                    ],
+                    [
+                        18,
+                        1
+                    ]
+                ]
+            }
+        }
+    },
+    {
+        "filter": [
+            "all",
+            [
+                "filter-==",
+                "indoor",
+                "area"
+            ],
+            [
+                "filter-==",
+                "balcony",
+                "yes"
+            ]
+        ],
+        "id": "indoor-balcony",
+        "type": "fill",
+        "source": "indoor",
+        "paint": {
+            "fill-color": "#BDBDBD",
+            "fill-opacity": {
+                "base": 1,
+                "stops": [
+                    [
+                        17,
+                        0
+                    ],
+                    [
+                        18,
+                        1
+                    ]
+                ]
+            }
+        }
+    },
+    {
+        "filter": [
+            "any",
+            [
+                "filter-==",
+                "stairs",
+                "yes"
+            ],
+            [
+                "filter-==",
+                "elevator",
+                "yes"
+            ]
+        ],
+        "id": "indoor-stairs",
+        "type": "fill",
+        "source": "indoor",
+        "paint": {
+            "fill-color": "#7B635A",
+            "fill-outline-color": "#000000",
+            "fill-opacity": {
+                "base": 1,
+                "stops": [
+                    [
+                        17,
+                        0
+                    ],
+                    [
+                        18,
+                        1
+                    ]
+                ]
+            }
+        }
+    },
+    {
+        "filter": [
+            "filter-==",
+            "indoor",
+            "wall"
+        ],
+        "id": "indoor-walls",
+        "type": "line",
+        "source": "indoor",
+        "paint": {
+            "line-color": "#000000",
+            "line-opacity": {
+                "base": 1,
+                "stops": [
+                    [
+                        17,
+                        0
+                    ],
+                    [
+                        18,
+                        1
+                    ]
+                ]
+            }
+        }
+    },
+    {
+        "filter": [
+            "has",
+            "barrier"
+        ],
+        "id": "indoor-barriers",
+        "type": "line",
+        "source": "indoor",
+        "paint": {
+            "line-color": "#000000",
+            "line-opacity": {
+                "base": 1,
+                "stops": [
+                    [
+                        17,
+                        0
+                    ],
+                    [
+                        18,
+                        1
+                    ]
+                ]
+            }
+        }
+    },
+    {
+        "filter": [
+            "filter-==",
+            "indoor",
+            "block"
+        ],
+        "id": "indoor-blocks",
+        "type": "fill",
+        "source": "indoor",
+        "paint": {
+            "fill-color": "#000000",
+            "fill-opacity": {
+                "base": 1,
+                "stops": [
+                    [
+                        17,
+                        0
+                    ],
+                    [
+                        18,
+                        1
+                    ]
+                ]
+            }
+        }
+    },
+    {
+        "filter": [
+            "filter-==",
+            "handrail",
+            "yes"
+        ],
+        "id": "indoor-handrail",
+        "type": "line",
+        "source": "indoor",
+        "paint": {
+            "line-color": "#000000",
+            "line-opacity": {
+                "base": 1,
+                "stops": [
+                    [
+                        17,
+                        0
+                    ],
+                    [
+                        19,
+                        1
+                    ]
+                ]
+            }
+        }
+    },
+    {
+        "filter": [
+            "any",
+            [
+                "filter-in-small",
+                "indoor",
+                [
+                    "literal",
+                    [
+                        "table",
+                        "cupboard",
+                        "chair",
+                        "kitchen",
+                        "sofa",
+                        "tv"
+                    ]
+                ]
+            ],
+            [
+                "filter-==",
+                "trashcan",
+                "yes"
+            ],
+            [
+                "filter-==",
+                "copier",
+                "yes"
+            ]
+        ],
+        "id": "indoor-furniture",
+        "type": "fill",
+        "source": "indoor",
+        "paint": {
+            "fill-color": "#000",
+            "fill-outline-color": "#000",
+            "fill-opacity": {
+                "base": 1,
+                "stops": [
+                    [
+                        18,
+                        0
+                    ],
+                    [
+                        19,
+                        0.2
+                    ]
+                ]
+            }
+        }
+    },
+    {
+        "filter": [
+            "filter-==",
+            "indoor",
+            "level"
+        ],
+        "id": "level",
+        "type": "line",
+        "source": "indoor",
+        "paint": {
+            "line-color": "#000000",
+            "line-width": {
+                "base": 2,
+                "stops": [
+                    [
+                        16.5,
+                        0
+                    ],
+                    [
+                        18,
+                        2
+                    ]
+                ]
+            },
+            "line-opacity": {
+                "base": 1,
+                "stops": [
+                    [
+                        16.5,
+                        0
+                    ],
+                    [
+                        18,
+                        1
+                    ]
+                ]
+            }
+        }
+    },
+    {
+        "id": "indoor-steps",
+        "paint": {
+            "line-width": {
+                "base": 1.5,
+                "stops": [
+                    [
+                        15,
+                        1
+                    ],
+                    [
+                        16,
+                        1.6
+                    ],
+                    [
+                        18,
+                        6
+                    ]
+                ]
+            },
+            "line-color": "hsl(0, 0%, 100%)",
+            "line-dasharray": {
+                "base": 1,
+                "stops": [
+                    [
+                        14,
+                        [
+                            1,
+                            0
+                        ]
+                    ],
+                    [
+                        15,
+                        [
+                            1.75,
+                            1
+                        ]
+                    ],
+                    [
+                        16,
+                        [
+                            1,
+                            0.75
+                        ]
+                    ],
+                    [
+                        17,
+                        [
+                            0.3,
+                            0.3
+                        ]
+                    ]
+                ]
+            },
+            "line-opacity": {
+                "base": 1,
+                "stops": [
+                    [
+                        14,
+                        0
+                    ],
+                    [
+                        14.25,
+                        1
+                    ]
+                ]
+            }
+        },
+        "type": "line",
+        "source": "indoor",
+        "filter": [
+            "all",
+            [
+                "filter-==",
+                "highway",
+                "steps"
+            ],
+            [
+                "!",
+                [
+                    "has",
+                    "conveying"
+                ]
+            ]
+        ],
+        "layout": {
+            "line-join": "round"
+        }
+    },
+    {
+        "id": "indoor-conveying",
+        "paint": {
+            "line-width": {
+                "base": 1.5,
+                "stops": [
+                    [
+                        15,
+                        1
+                    ],
+                    [
+                        16,
+                        1.6
+                    ],
+                    [
+                        18,
+                        6
+                    ]
+                ]
+            },
+            "line-color": "#FF0000",
+            "line-dasharray": {
+                "base": 1,
+                "stops": [
+                    [
+                        14,
+                        [
+                            1,
+                            0
+                        ]
+                    ],
+                    [
+                        15,
+                        [
+                            1.75,
+                            1
+                        ]
+                    ],
+                    [
+                        16,
+                        [
+                            1,
+                            0.75
+                        ]
+                    ],
+                    [
+                        17,
+                        [
+                            0.3,
+                            0.3
+                        ]
+                    ]
+                ]
+            },
+            "line-opacity": {
+                "base": 1,
+                "stops": [
+                    [
+                        14,
+                        0
+                    ],
+                    [
+                        14.25,
+                        1
+                    ]
+                ]
+            }
+        },
+        "type": "line",
+        "source": "indoor",
+        "filter": [
+            "all",
+            [
+                "filter-==",
+                "highway",
+                "steps"
+            ],
+            [
+                "has",
+                "conveying"
+            ]
+        ],
+        "layout": {
+            "line-join": "round"
+        }
+    },
+    {
+        "interactive": true,
+        "minzoom": 17,
+        "layout": {
+            "text-line-height": 1.2,
+            "text-size": {
+                "base": 1,
+                "stops": [
+                    [
+                        17,
+                        10
+                    ],
+                    [
+                        20,
+                        12
+                    ]
+                ]
+            },
+            "text-allow-overlap": false,
+            "text-ignore-placement": false,
+            "text-max-angle": 38,
+            "text-font": [
+                "DIN Offc Pro Medium",
+                "Arial Unicode MS Regular"
+            ],
+            "symbol-placement": "point",
+            "text-padding": 2,
+            "visibility": "visible",
+            "text-rotation-alignment": "viewport",
+            "text-anchor": "center",
+            "text-field": "{ref}",
+            "text-letter-spacing": 0.02,
+            "text-max-width": 8
+        },
+        "filter": [
+            "filter-==",
+            "indoor",
+            "room"
+        ],
+        "type": "symbol",
+        "source": "indoor",
+        "id": "poi-indoor-text-ref",
+        "paint": {
+            "text-color": "#65513d",
+            "text-halo-color": "#ffffff",
+            "text-halo-width": 1,
+            "text-opacity": {
+                "base": 1,
+                "stops": [
+                    [
+                        18,
+                        0
+                    ],
+                    [
+                        18.5,
+                        0.5
+                    ],
+                    [
+                        19,
+                        1
+                    ]
+                ]
+            }
+        }
+    },
+    {
+        "interactive": true,
+        "minzoom": 17,
+        "layout": {
+            "text-line-height": 1.2,
+            "icon-size": {
+                "base": 1,
+                "stops": [
+                    [
+                        17,
+                        0.5
+                    ],
+                    [
+                        20,
+                        1
+                    ]
+                ]
+            },
+            "text-size": {
+                "base": 1,
+                "stops": [
+                    [
+                        17,
+                        11
+                    ],
+                    [
+                        20,
+                        13
+                    ]
+                ]
+            },
+            "text-allow-overlap": false,
+            "icon-image": "{maki}-15",
+            "icon-anchor": "center",
+            "text-ignore-placement": false,
+            "text-max-angle": 38,
+            "symbol-spacing": 250,
+            "text-font": [
+                "DIN Offc Pro Medium",
+                "Arial Unicode MS Regular"
+            ],
+            "symbol-placement": "point",
+            "text-padding": 2,
+            "visibility": "visible",
+            "text-offset": [
+                0,
+                1
+            ],
+            "icon-optional": false,
+            "text-rotation-alignment": "viewport",
+            "text-anchor": "top",
+            "text-field": "{name}",
+            "text-letter-spacing": 0.02,
+            "text-max-width": 8,
+            "icon-allow-overlap": true
+        },
+        "filter": [
+            "boolean",
+            false
+        ],
+        "type": "symbol",
+        "source": "indoor",
+        "id": "poi-indoor",
+        "paint": {
+            "text-color": "#65513d",
+            "text-halo-color": "#ffffff",
+            "text-halo-width": 1,
+            "text-opacity": {
+                "base": 1,
+                "stops": [
+                    [
+                        17,
+                        0
+                    ],
+                    [
+                        17.5,
+                        0.5
+                    ],
+                    [
+                        19,
+                        1
+                    ]
+                ]
+            },
+            "icon-opacity": {
+                "base": 1,
+                "stops": [
+                    [
+                        17,
+                        0
+                    ],
+                    [
+                        17.5,
+                        0.5
+                    ],
+                    [
+                        19,
+                        1
+                    ]
+                ]
+            }
+        }
+    }
+]
