@@ -5,7 +5,6 @@
   "version": "0.0.1",
   "browserify": {
     "transform": [
-      "babelify",
       "brfs"
     ]
   },
@@ -39,7 +38,6 @@
     "@types/geojson": "^7946.0.7",
     "@typescript-eslint/eslint-plugin": "^2.31.0",
     "@typescript-eslint/parser": "^2.31.0",
-    "babelify": "^10.0.0",
     "brfs": "^2.0.2",
     "browserify": "^16.5.1",
     "budo": "^11.6.3",
