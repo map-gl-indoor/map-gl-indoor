@@ -1,0 +1,8 @@
+version: "3"
+services:
+  mapbox-gl-indoor-plugin:
+    build:
+      context: .
+    # image: ThibaudM/mapbox-gl-indoor-plugin
+    ports:
+    - 9966:9966
