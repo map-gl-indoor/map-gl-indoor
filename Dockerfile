@@ -5,6 +5,6 @@ WORKDIR /mapbox-gl-indoor-plugin
 COPY . .
 
 RUN npm install
-RUN npm run start
+CMD npm run start
 
 EXPOSE 9966
