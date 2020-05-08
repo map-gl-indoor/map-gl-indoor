@@ -4,7 +4,7 @@
 
 ## with docker-compose
 
-Build and run: `docker-compose up`
+Install and start: `docker-compose up --build`
 
 # Examples
 
