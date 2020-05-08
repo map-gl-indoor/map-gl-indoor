@@ -3,6 +3,9 @@ services:
   mapbox-gl-indoor-plugin:
     build:
       context: .
-      dockerfile: Dockerfile_dev
+      dockerfile: Dockerfile
     ports:
     - 9966:9966
+    volumes:
+    - ./examples/simple-map.html:/mapbox-gl-indoor-plugin/index.html
+
