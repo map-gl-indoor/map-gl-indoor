@@ -717,7 +717,7 @@
             "visibility": "visible",
             "text-rotation-alignment": "viewport",
             "text-anchor": "center",
-            "text-field": "{ref}",
+            "text-field": "{name}",
             "text-letter-spacing": 0.02,
             "text-max-width": 8
         },

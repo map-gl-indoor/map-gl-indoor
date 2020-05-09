@@ -1,0 +1,6 @@
+:9966 {
+    gzip
+    tls off
+    root /mapbox-gl-indoor-plugin/
+    browse /
+}
