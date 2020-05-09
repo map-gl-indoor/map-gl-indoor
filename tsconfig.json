@@ -1,26 +1,14 @@
 {
   "compilerOptions": {
-    "moduleResolution": "node",
-    "target": "es6",
-    "module": "commonjs",
     "lib": [
       "es2018",
       "dom"
     ],
-    "strict": true,
-    "sourceMap": true,
-    "declaration": true,
-    "esModuleInterop": true,
-    "noImplicitAny": false,
-    "allowSyntheticDefaultImports": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "resolveJsonModule": true,
-    "strictPropertyInitialization": false,
+    "module": "commonjs",
     "outDir": "./dist",
-    "typeRoots": [
-      "node_modules/@types"
-    ]
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "strictPropertyInitialization": false
   },
   "include": [
     "src/**/*.ts"
