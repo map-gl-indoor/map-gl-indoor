@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Display map navigation controls</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v1.10.0/mapbox-gl.js"></script>
+    <script src="dist/mapbox-gl-indoor.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v1.10.0/mapbox-gl.css" rel="stylesheet" />
+    <script
+        src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.min.js"></script>
+    <link rel="stylesheet"
+        href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.css"
+        type="text/css" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map" style="position:absolute;top:0;right:0;left:0;bottom:0;"></div>
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiY2xlbWVudGlnb25ldCIsImEiOiJjazl2Z2hzcmkwYmF6M21zN3RqcHg5anU4In0.blXhwZzYBGSm6fJe0z0e-Q'
+        var map = new mapboxgl.Map({
+            container: 'map', // container id
+            style: 'mapbox://styles/mapbox/streets-v11',
+            zoom: 18,
+            center: [2.2491, 48.7761],
+        });
+
+        const indoor = new mapboxgl_indoor.Indoor(map);
+
+        var customData;
+
+        // Retrieve the geojson from the path and add the map
+        fetch('indoor-maps/gare-de-l-est.geojson')
+            .then(res => res.json())
+            .then(geojson => {
+                indoor.addMap(mapboxgl_indoor.IndoorMap.fromGeojson(geojson));
+                customData = geojson;
+            });
+
+        function forwardGeocoder(query) {
+            console.log('query:', query)
+            var matchingFeatures = [];
+            for (var i = 0; i < customData.features.length; i++) {
+                var feature = customData.features[i];
+                if (feature.properties.hasOwnProperty('name') &&
+                    feature.properties.name
+                        .toLowerCase()
+                        .search(query.toLowerCase()) !== -1
+                ) {
+                    feature['place_name'] = feature.properties.name;
+                    feature['center'] = feature.geometry.coordinates[0][0];
+                    feature['place_type'] = ['park'];
+                    matchingFeatures.push(feature);
+                }
+            }
+            return matchingFeatures;
+        }
+
+        // Add search controls to the map.
+        map.addControl(
+            new MapboxGeocoder({
+                localGeocoderOnly: true,
+                localGeocoder: forwardGeocoder,
+                zoom: 18,
+                placeholder: 'Enter search e.g. Room',
+                mapboxgl: mapboxgl
+            })
+        );
+
+        // Add zoom and rotation controls to the map.
+        map.addControl(new mapboxgl.NavigationControl());
+
+        // Add the specific control
+        map.addControl(new mapboxgl_indoor.IndoorControl(indoor));
+
+    </script>
+
+</body>
+
+</html>
