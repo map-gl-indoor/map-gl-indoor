@@ -1,6 +1,7 @@
 import Indoor from './Indoor';
 import IndoorMap from './IndoorMap';
 
+import type { Map } from 'mapbox-gl';
 import type { Level } from './types';
 
 /**
@@ -11,6 +12,7 @@ import type { Level } from './types';
 class IndoorControl {
 
     _indoor: Indoor;
+    _map: Map;
     _indoorMap: IndoorMap | null;
 
     _container: HTMLElement | null;
@@ -24,7 +26,9 @@ class IndoorControl {
         this._selectedButton = null;
     }
 
-    onAdd() {
+    onAdd(map: Map) {
+        this._map = map;
+
         // Create container
         this._container = document.createElement("div");
         this._container.classList.add("mapboxgl-ctrl");
@@ -39,18 +43,18 @@ class IndoorControl {
         }
 
         // Register to indoor events
-        this._indoor.on('map.loaded', this._onMapLoaded);
-        this._indoor.on('map.unloaded', this._onMapUnLoaded);
-        this._indoor.on('level.changed', this._onLevelChanged);
+        this._map.on('indoor.map.loaded', this._onMapLoaded);
+        this._map.on('indoor.map.unloaded', this._onMapUnLoaded);
+        this._map.on('indoor.level.changed', this._onLevelChanged);
 
         return this._container;
     }
 
     onRemove() {
         this._container = null;
-        this._indoor.off('map.loaded', this._onMapLoaded);
-        this._indoor.off('map.unloaded', this._onMapUnLoaded);
-        this._indoor.off('level.changed', this._onLevelChanged);
+        this._map.off('indoor.map.loaded', this._onMapLoaded);
+        this._map.off('indoor.map.unloaded', this._onMapUnLoaded);
+        this._map.off('indoor.level.changed', this._onLevelChanged);
     }
 
     _onMapLoaded = ({ indoorMap }: { indoorMap: IndoorMap }): void => {
