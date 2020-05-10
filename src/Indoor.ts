@@ -1,4 +1,3 @@
-import { Map } from 'mapbox-gl';
 
 import IndoorMap from './IndoorMap';
 import { distance, overlap, filterWithLevel } from './Utils';
@@ -8,6 +7,7 @@ type SavedFilter = {
     filter: FilterSpecification
 }
 
+import type { Map } from 'mapbox-gl';
 import type { Level, FilterSpecification, LayerSpecification } from './types';
 
 const SOURCE_ID = 'indoor';

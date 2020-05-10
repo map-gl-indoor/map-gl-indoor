@@ -1,74 +1,14 @@
-import { LngLat, LngLatBounds } from 'mapbox-gl';
+import { LngLatBounds } from 'mapbox-gl';
+import bbox from '@turf/bbox';
 
-import type { Feature, GeoJSON, Geometry } from 'geojson';
+import type { BBox2d } from '@mapbox/geojson-types';
+import type { Feature, GeoJSON } from 'geojson';
 import type { LevelsRange } from './types';
 
 /**
  * Helper for Geojson data
  */
 class GeoJsonHelper {
-
-    /**
-     * Get the bounds of a feature object
-     *
-     * @param {GeoJSONFeature} feature The feature object
-     * @returns {LngLatBounds} The feature bounds
-     */
-    static getFeatureBounds(feature: Feature) {
-        if (!feature.geometry) {
-            return new LngLatBounds();
-        }
-        return this.getGeometryBounds(feature.geometry);
-    }
-
-    /**
-     * Get the bounds of a geometry
-     *
-     * @param {GeoJSONGeometry} geometry The geometry
-     * @returns {LngLatBounds} The feature bounds
-     */
-    static getGeometryBounds(geometry: Geometry) {
-
-        const bounds = new LngLatBounds();
-
-        if (geometry.type === 'Point') {
-
-            bounds.extend(LngLat.convert([geometry.coordinates[0], geometry.coordinates[1]]));
-
-        } else if (geometry.type === 'LineString') {
-
-            geometry.coordinates.forEach(coordinates => {
-                bounds.extend(LngLat.convert([coordinates[0], coordinates[1]]));
-            });
-
-        } else if (geometry.type === 'Polygon') {
-
-            geometry.coordinates.forEach(coordinates => {
-                coordinates.forEach(_coordinates => {
-                    bounds.extend(LngLat.convert([_coordinates[0], _coordinates[1]]));
-                });
-            });
-
-        } else if (geometry.type === 'MultiPolygon') {
-
-            geometry.coordinates.forEach(coordinates => {
-                coordinates.forEach(_coordinates => {
-                    _coordinates.forEach(__coordinates => {
-                        bounds.extend(LngLat.convert([__coordinates[0], __coordinates[1]]));
-                    });
-                });
-            });
-
-        } else if (geometry.type === 'GeometryCollection') {
-
-            geometry.geometries.forEach(_geometry => {
-                bounds.extend(this.getGeometryBounds(_geometry));
-            });
-
-        }
-
-        return bounds;
-    }
 
     /**
      * Extract level from feature
@@ -113,16 +53,13 @@ class GeoJsonHelper {
         let minLevel = Infinity;
         let maxLevel = -Infinity;
 
-        const bounds = new LngLatBounds();
+        const bounds = LngLatBounds.convert(bbox(geojson) as BBox2d)
 
-        const parseFeature = (feature: Feature) : void => {
+        const parseFeature = (feature: Feature): void => {
             const level = this.extractLevelFromFeature(feature);
             if (level === null) {
                 return;
             }
-
-            bounds.extend(GeoJsonHelper.getFeatureBounds(feature));
-
             if (typeof level === 'number') {
                 minLevel = Math.min(minLevel, level);
                 maxLevel = Math.max(maxLevel, level);
