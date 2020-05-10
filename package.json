@@ -2,15 +2,14 @@
   "name": "mapbox-gl-js-indoor",
   "description": "Visualize multi-level buildings",
   "main": "./dist/mapbox-gl-indoor.js",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "browserify": {
     "transform": [
       "brfs"
     ]
   },
   "scripts": {
-    "prepublish": "npm run build",
-    "start": "NODE_ENV=development budo examples/multiple-maps.js:examples/bundle.js --live --dir examples/indoor-maps -- -p tsify",
+    "start": "NODE_ENV=development budo src/index.ts:mapbox-gl-indoor.js --live --dir examples -- -p tsify --standalone mapboxgl_indoor",
     "build": "NODE_ENV=production mkdir -p dist && browserify --standalone mapboxgl_indoor -p tsify src/index.ts > dist/mapbox-gl-indoor.js",
     "lint": "eslint --ext .js,.ts src"
   },
@@ -51,9 +50,8 @@
   },
   "dependencies": {
     "@mapbox/geojson-types": "^1.0.2",
-    "@turf/distance": "^6.0.1",
+    "@turf/helpers": "^6.1.4",
     "@types/mapbox-gl": "^1.9.1",
-    "geojson-bbox": "0.0.0",
     "mapbox-gl": "^1.10.0"
   }
 }

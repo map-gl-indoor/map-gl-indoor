@@ -1,8 +1,7 @@
 import { Evented, Map } from 'mapbox-gl';
-import distance from '@turf/distance';
 
 import IndoorMap from './IndoorMap';
-import { overlap, filterWithLevel } from './Utils';
+import { distance, overlap, filterWithLevel } from './Utils';
 
 type SavedFilter = {
     layerId: string,

@@ -84,7 +84,7 @@ class IndoorControl {
         }
 
         const range = this._indoorMap.levelsRange;
-        for (let i = range.min; i <= range.max; i++) {
+        for (let i = range.max; i >= range.min; i--) {
             this._levelsButtons[i] = this._createLevelButton(this._container, i);
         }
     }
