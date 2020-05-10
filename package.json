@@ -9,7 +9,7 @@
     ]
   },
   "scripts": {
-    "start": "NODE_ENV=development budo src/index.ts:examples/mapbox-gl-indoor.js --live --dir examples -- -p tsify --standalone mapboxgl_indoor",
+    "start": "NODE_ENV=development budo src/index.ts:mapbox-gl-indoor.js --live --dir examples -- -p tsify --standalone mapboxgl_indoor",
     "build": "NODE_ENV=production mkdir -p dist && browserify --standalone mapboxgl_indoor -p tsify src/index.ts > dist/mapbox-gl-indoor.js",
     "lint": "eslint --ext .js,.ts src"
   },
