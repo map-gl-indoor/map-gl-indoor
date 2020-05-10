@@ -50,7 +50,6 @@
   },
   "dependencies": {
     "@mapbox/geojson-types": "^1.0.2",
-    "@turf/helpers": "^6.1.4",
     "@types/mapbox-gl": "^1.9.1",
     "mapbox-gl": "^1.10.0"
   }

@@ -1,8 +1,8 @@
-import { degreesToRadians, radiansToLength } from "@turf/helpers";
-
 import type { LngLat, LngLatBounds } from 'mapbox-gl';
 
 import type { FilterSpecification, Level } from './types';
+
+export const EarthRadius = 6371008.8;
 
 export function overlap(bounds1: LngLatBounds, bounds2: LngLatBounds) {
 
@@ -93,11 +93,11 @@ export function filterWithLevel(initialFilter: FilterSpecification, level: Level
  * Calculates the distance between two coordinates in meters.
  */
 export function distance(from: LngLat, to: LngLat): number {
-    var dLat = degreesToRadians(to.lat - from.lat);
-    var dLon = degreesToRadians(to.lng - from.lng);
-    var lat1 = degreesToRadians(from.lat);
-    var lat2 = degreesToRadians(to.lng);
+    var dLat = Math.PI / 180 * (to.lat - from.lat);
+    var dLon = Math.PI / 180 * (to.lng - from.lng);
+    var lat1 = Math.PI / 180 * (from.lat);
+    var lat2 = Math.PI / 180 * (to.lng);
     var a = Math.pow(Math.sin(dLat / 2), 2) +
         Math.pow(Math.sin(dLon / 2), 2) * Math.cos(lat1) * Math.cos(lat2);
-    return radiansToLength(2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)), "meters");
+    return EarthRadius * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)));
 }
