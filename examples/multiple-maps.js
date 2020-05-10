@@ -42,7 +42,6 @@ const geojsonMaps = [
     { path: 'gare-de-l-est.geojson', center: [2.3592843, 48.8767904] },
     { path: 'caserne.geojson', center: [5.723078, 45.183754] },
     { path: 'grand-place.geojson', center: [5.732179, 45.157955], defaultLevel: 1 },
-    { path: 'arcade.geojson', center: [2.2491, 48.7761], defaultLevel: 1 }
 ];
 
 geojsonMaps.forEach(({ path, center }) => createMenuButton(path, center));
