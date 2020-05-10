@@ -1,6 +1,7 @@
+import { distance } from '@turf/distance';
 
 import IndoorMap from './IndoorMap';
-import { distance, overlap, filterWithLevel } from './Utils';
+import { overlap, filterWithLevel } from './Utils';
 
 type SavedFilter = {
     layerId: string,
