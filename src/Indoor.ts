@@ -1,23 +1,23 @@
-import { Evented, Map } from 'mapbox-gl';
+import { distance } from '@turf/distance';
 
 import IndoorMap from './IndoorMap';
-import { distance, overlap, filterWithLevel } from './Utils';
+import { overlap, filterWithLevel } from './Utils';
 
 type SavedFilter = {
     layerId: string,
     filter: FilterSpecification
 }
 
+import type { Map } from 'mapbox-gl';
 import type { Level, FilterSpecification, LayerSpecification } from './types';
 
 const SOURCE_ID = 'indoor';
 
 /**
  * Manage indoor levels
- * @extends Evented
  * @param {Map} map the Mapbox map
  */
-class Indoor extends Evented {
+class Indoor {
 
     _map: Map;
     _level: Level | null;
@@ -31,8 +31,6 @@ class Indoor extends Evented {
     _mapLoaded: boolean;
 
     constructor(map: Map) {
-        super();
-
         this._map = map;
         this._level = null;
 
@@ -66,7 +64,7 @@ class Indoor extends Evented {
     setLevel(level: Level | null): void {
         this._level = level;
         this._updateFiltering();
-        this.fire('level.changed', { level });
+        this._map.fire('indoor.level.changed', { level });
     }
 
     /**
@@ -153,7 +151,7 @@ class Indoor extends Evented {
 
             this.setLevel(null);
 
-            this.fire('map.unloaded', { indoorMap: previousMap });
+            this._map.fire('indoor.map.unloaded', { indoorMap: previousMap });
             return;
         }
 
@@ -172,7 +170,7 @@ class Indoor extends Evented {
         // Hide layers which can overlap for rendering
         indoorMap.layersToHide.forEach(layerId => this._map.setLayoutProperty(layerId, 'visibility', 'none'));
 
-        this.fire('map.loaded', { indoorMap });
+        this._map.fire('indoor.map.loaded', { indoorMap });
 
         // Restore the same level when the previous selected map is the same.
         const level = this._previousSelectedMap === indoorMap

@@ -57,10 +57,10 @@
         map.addControl(new mapboxgl_indoor.IndoorControl(indoor));
 
 
-        indoor.on('map.loaded', console.log);
-        indoor.on('map.unloaded', console.log);
-        indoor.on('levels.range.changed', console.log);
-        indoor.on('level.changed', console.log);
+        map.on('indoor.map.loaded', console.log);
+        map.on('indoor.map.unloaded', console.log);
+        map.on('indoor.levels.range.changed', console.log);
+        map.on('indoor.level.changed', console.log);
     </script>
 
 </body>
