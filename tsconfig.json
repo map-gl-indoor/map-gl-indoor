@@ -4,8 +4,8 @@
       "es2018",
       "dom"
     ],
-    "module": "commonjs",
-    "outDir": "./dist",
+    "module": "esnext",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "sourceMap": true,
     "strictPropertyInitialization": false
