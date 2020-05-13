@@ -4,12 +4,39 @@ import json from '@rollup/plugin-json';
 import commonjs from '@rollup/plugin-commonjs';
 import { terser } from "rollup-plugin-terser";
 
+import * as mapboxglPackage from './node_modules/mapbox-gl/package.json';
+
+const paths = {
+    'mapbox-gl': 'https://api.mapbox.com/mapbox-gl-js/v' + mapboxglPackage.version + '/mapbox-gl.js'
+};
+
+const globals = {
+    'mapbox-gl': 'mapboxgl'
+};
+
 export default {
     input: 'src/index.ts',
     output: [
-        { file: 'dist/mapbox-gl-indoor.js', format: 'cjs' },
-        { file: 'dist/mapbox-gl-indoor.min.js', format: 'cjs', plugins: [terser()] },
-        { file: "dist/mapbox-gl-indoor.esm.js", format: "esm" }
+        {
+            file: 'dist/mapbox-gl-indoor.js',
+            format: 'iife',
+            name: 'mapboxgl_indoor',
+            globals,
+            paths
+        },
+        {
+            file: 'dist/mapbox-gl-indoor.min.js',
+            format: 'iife',
+            plugins: [terser()],
+            name: 'mapboxgl_indoor',
+            globals,
+            paths
+        },
+        {
+            file: "dist/mapbox-gl-indoor.esm.js",
+            format: "esm",
+            paths
+        }
     ],
     treeshake: {
         moduleSideEffects: false
@@ -18,11 +45,14 @@ export default {
         typescript(),
         json(),
         commonjs({
-            namedExports: { 'mapbox-gl': ['LngLat', 'LngLatBounds'], '@turf/distance': ['distance'] },
+            namedExports: { '@turf/distance': ['distance'] }
         }),
         resolve({
             jsnext: true,
             browser: true
         })
+    ],
+    external: [
+        'mapbox-gl'
     ]
 };

@@ -1,14 +1,17 @@
 {
   "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
     "lib": [
       "es2018",
       "dom"
     ],
     "module": "esnext",
     "moduleResolution": "node",
+    "outDir": "./dist",
     "resolveJsonModule": true,
     "sourceMap": true,
-    "strictPropertyInitialization": false
+    "strictPropertyInitialization": false,
+    "target": "ESNext"
   },
   "include": [
     "src/**/*.ts"
