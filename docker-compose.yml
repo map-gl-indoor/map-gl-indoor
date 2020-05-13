@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-    - 9966:9966
+    - 8888:80
     volumes:
-    - ./examples/simple-map.html:/mapbox-gl-indoor-plugin/index.html
+    - ./examples/search.html:/mapbox-gl-indoor/index.html
 
