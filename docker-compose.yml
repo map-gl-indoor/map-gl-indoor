@@ -7,5 +7,5 @@ services:
     ports:
     - 8888:80
     volumes:
-    - ./examples/search.html:/mapbox-gl-indoor/index.html
+    - ./examples/index.html:/mapbox-gl-indoor/index.html
 
