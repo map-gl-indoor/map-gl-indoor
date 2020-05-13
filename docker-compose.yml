@@ -1,6 +1,6 @@
 version: "3"
 services:
-  mapbox-gl-indoor-plugin:
+  mapbox-gl-indoor:
     build:
       context: .
       dockerfile: Dockerfile
