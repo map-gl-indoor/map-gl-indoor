@@ -14,33 +14,34 @@ const globals = {
     'mapbox-gl': 'mapboxgl'
 };
 
+const outputNormal = {
+    file: 'dist/mapbox-gl-indoor.js',
+    format: 'iife',
+    name: 'mapboxgl_indoor',
+    globals,
+    paths
+};
+
+const outputMinified = Object.assign({}, outputNormal, {
+    file: 'dist/mapbox-gl-indoor.min.js',
+    plugins: [terser()]
+});
+
+const outputEsm = {
+    file: "dist/mapbox-gl-indoor.esm.js",
+    format: "esm",
+    paths
+};
+
+const output = [outputNormal];
+
+if (process.env.NODE_ENV !== 'debug') {
+    output.push(outputMinified, outputEsm);
+}
+
 export default {
     input: 'src/index.ts',
-    output: [
-        {
-            file: 'dist/mapbox-gl-indoor.js',
-            format: 'iife',
-            name: 'mapboxgl_indoor',
-            globals,
-            paths
-        },
-        {
-            file: 'dist/mapbox-gl-indoor.min.js',
-            format: 'iife',
-            plugins: [terser()],
-            name: 'mapboxgl_indoor',
-            globals,
-            paths
-        },
-        {
-            file: "dist/mapbox-gl-indoor.esm.js",
-            format: "esm",
-            paths
-        }
-    ],
-    treeshake: {
-        moduleSideEffects: false
-    },
+    output,
     plugins: [
         typescript(),
         json(),

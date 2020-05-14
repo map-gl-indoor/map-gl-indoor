@@ -9,9 +9,12 @@
     ]
   },
   "scripts": {
-    "start": "NODE_ENV=development budo src/index.ts:mapbox-gl-indoor.js --live --dir examples -- -p tsify --standalone mapboxgl_indoor",
-    "build": "NODE_ENV=production mkdir -p dist && browserify --standalone mapboxgl_indoor -p tsify src/index.ts > dist/mapbox-gl-indoor.js",
-    "lint": "eslint --ext .js,.ts src"
+    "build": "rollup -c",
+    "build-token": "node build/generate-access-token-script.js",
+    "lint": "eslint --ext .js,.ts src",
+    "start-server": "st --no-cache -H 0.0.0.0 --port 9966 .",
+    "start": "NODE_ENV=debug run-p build-token watch start-server",
+    "watch": "rollup -c --watch"
   },
   "repository": {
     "type": "git",
@@ -44,12 +47,11 @@
     "browserify": "^16.5.1",
     "budo": "^11.6.3",
     "eslint": "^6.8.0",
-    "eslint-config-mourner": "^3.0.0",
-    "eslint-plugin-import": "^2.20.2",
-    "eslint-plugin-jsdoc": "^24.0.2",
     "insert-css": "^2.0.0",
+    "npm-run-all": "^4.1.5",
     "rollup": "^1.20.0",
     "rollup-plugin-terser": "^5.3.0",
+    "st": "^2.0.0",
     "tsify": "^4.0.1",
     "typescript": "^3.8.3"
   },
