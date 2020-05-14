@@ -13,7 +13,7 @@ FROM abiosoft/caddy:1.0.3-no-stats
 
 RUN mkdir -p /mapbox-gl-indoor/dist
 
-COPY                ./examples/                                /mapbox-gl-indoor/
+COPY                ./debug/                                   /mapbox-gl-indoor/
 COPY --from=builder /mapbox-gl-indoor/dist/mapbox-gl-indoor.js /mapbox-gl-indoor/mapbox-gl-indoor.js
 COPY                ./Caddyfile                                /etc/Caddyfile
 
