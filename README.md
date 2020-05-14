@@ -56,4 +56,10 @@ Visit http://localhost:9966/ to load the samples
 
 ### With docker-compose
 
+Put your mapbox access token in the web console:
+`window.localStorage.setItem('MapboxAccessToken', '_YOUR_TOKEN_');`
+
 Install and start: `docker-compose up --build`
+
+window.localStorage.setItem('MapboxAccessToken', 'pk.eyJ1IjoiY2xlbWVudGlnb25ldCIsImEiOiJjazl2Z2hzcmkwYmF6M21zN3RqcHg5anU4In0.blXhwZzYBGSm6fJe0z0e-Q')
+

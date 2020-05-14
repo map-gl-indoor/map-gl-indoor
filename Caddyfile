@@ -1,6 +1,6 @@
-:9966 {
+:80 {
     gzip
     tls off
-    root /mapbox-gl-indoor-plugin/
+    root /mapbox-gl-indoor/
     browse /
 }
