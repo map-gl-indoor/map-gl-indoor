@@ -1,4 +1,4 @@
-import * as defaultLayers from './default_layers.json';
+import defaultLayers from './default_layers.json';
 
 import type { LayerSpecification } from '../types';
 

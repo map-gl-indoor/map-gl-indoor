@@ -5,9 +5,13 @@
     <meta charset="utf-8" />
     <title>Display map navigation controls</title>
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-    <script src="https://api.mapbox.com/mapbox-gl-js/v1.10.0/mapbox-gl.js"></script>
-    <link href="https://api.mapbox.com/mapbox-gl-js/v1.10.0/mapbox-gl.css" rel="stylesheet" />
-    <script src="mapbox-gl-indoor.js"></script>
+
+    <script src="/node_modules/mapbox-gl/dist/mapbox-gl.js"></script>
+    <script src='../debug/access_token_generated.js'></script>
+    <script src="../dist/mapbox-gl-indoor.js"></script>
+
+    <link href="/node_modules/mapbox-gl/dist/mapbox-gl.css" rel="stylesheet" />
+
     <style>
         body {
             margin: 0;
@@ -29,12 +33,10 @@
 
     <script>
 
-        mapboxgl.accessToken = window.localStorage.getItem('MapboxAccessToken');
-
         const map = window.map = new mapboxgl.Map({
             container: "map",
             zoom: 18,
-            center: [2.3592843, 48.8767904],
+            center: [5.723078, 45.183754],
             style: 'mapbox://styles/mapbox/streets-v10'
         });
 
@@ -46,9 +48,11 @@
         // Create the indoor handler
         const indoor = new mapboxgl_indoor.Indoor(map);
 
-        // Retrieve the geojson from the path and add the map
-        fetch('maps/gare-de-l-est.geojson')
-            .then(res => res.json())
+        // Retrieve the geojson from the osm path
+        fetch('maps/caserne.osm')
+            .then(response => response.text())
+            .then(osmString => (new window.DOMParser()).parseFromString(osmString, "text/xml"))
+            .then(osmXml => osmtogeojson(osmXml))
             .then(geojson => {
                 indoor.addMap(mapboxgl_indoor.IndoorMap.fromGeojson(geojson));
             });
