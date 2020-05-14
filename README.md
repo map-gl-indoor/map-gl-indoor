@@ -52,14 +52,11 @@ When a level is set (initialisation or user click), only the geojson features wh
 
     npm install & npm start
 
-Visit http://localhost:9966/ to load the samples
-
-### With docker-compose
+Then, visit http://localhost:9966/debug/index.html to load the samples
 
 Put your mapbox access token in the web console:
 `window.localStorage.setItem('MapboxAccessToken', '_YOUR_TOKEN_');`
 
+### With docker-compose
+
 Install and start: `docker-compose up --build`
-
-window.localStorage.setItem('MapboxAccessToken', 'pk.eyJ1IjoiY2xlbWVudGlnb25ldCIsImEiOiJjazl2Z2hzcmkwYmF6M21zN3RqcHg5anU4In0.blXhwZzYBGSm6fJe0z0e-Q')
-
