@@ -1,9 +1,10 @@
 version: "3"
 services:
-  mapbox-gl-indoor-plugin:
+  mapbox-gl-indoor:
     build:
       context: .
       dockerfile: Dockerfile
+    image: indoor/mapbox-gl-indoor
     ports:
     - 9966:9966
     volumes:

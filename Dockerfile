@@ -1,6 +1,6 @@
 FROM node:12 as builder
 
-WORKDIR /mapbox-gl-indoor-plugin
+WORKDIR /mapbox-gl-indoor
 
 COPY ./package.json ./package.json
 RUN npm install
@@ -13,8 +13,8 @@ FROM abiosoft/caddy:1.0.3-no-stats
 
 RUN mkdir -p /mapbox-gl-indoor-plugin/dist
 
-COPY ./examples/                                                      /mapbox-gl-indoor-plugin/
-COPY --from=builder /mapbox-gl-indoor-plugin/dist/mapbox-gl-indoor.js /mapbox-gl-indoor-plugin/dist/mapbox-gl-indoor.js
+COPY                ./examples/                                /mapbox-gl-indoor/
+COPY --from=builder /mapbox-gl-indoor/dist/mapbox-gl-indoor.js /mapbox-gl-indoor/dist/mapbox-gl-indoor.js
 
 COPY ./Caddyfile /etc/Caddyfile
 
