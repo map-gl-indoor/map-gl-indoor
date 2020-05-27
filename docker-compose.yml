@@ -4,8 +4,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    image: indoor/mapbox-gl-indoor
     ports:
     - 8888:80
     volumes:
-    - ./debug/index.html:/mapbox-gl-indoor/index.html
+    - ./examples/index.html:/mapbox-gl-indoor/index.html
 
