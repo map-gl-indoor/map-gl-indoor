@@ -97,6 +97,7 @@
             marker: true,
         });
         geocoder.on("result", (result) => {
+            console.log('result.result.properties:', result.result.properties);
             indoor.setLevel(parseInt(result.result.properties.level));
         })
         map.addControl(geocoder, 'top-right');
@@ -106,10 +107,6 @@
 
         // Add the specific control
         map.addControl(new mapboxgl_indoor.IndoorControl(indoor), 'top-right');
-
-
-        // Add the specific control
-        map.addControl(new mapboxgl_indoor.IndoorControl(indoor));
 
     </script>
 
