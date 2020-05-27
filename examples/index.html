@@ -5,13 +5,15 @@
     <meta charset="utf-8" />
     <title>Display map navigation controls</title>
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-
-    <script src="/node_modules/mapbox-gl/dist/mapbox-gl.js"></script>
-    <!-- <script src='../debug/access_token_generated.js'></script> -->
+    <script src='https://unpkg.com/@turf/turf/turf.min.js'></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v1.10.0/mapbox-gl.js"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.min.js"></script>
     <script src="../dist/mapbox-gl-indoor.js"></script>
 
-    <link href="/node_modules/mapbox-gl/dist/mapbox-gl.css" rel="stylesheet" />
-
+    <link href="https://api.mapbox.com/mapbox-gl-js/v1.10.0/mapbox-gl.css" rel="stylesheet" />
+    <link rel="stylesheet"
+        href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.css"
+        type="text/css" />
     <style>
         body {
             margin: 0;
@@ -40,6 +42,7 @@
             style: 'mapbox://styles/mapbox/streets-v10'
         });
 
+        map.addControl(new mapboxgl.FullscreenControl(), 'bottom-right');
 
         /**
          * Indoor specific
@@ -48,20 +51,66 @@
         // Create the indoor handler
         const indoor = new mapboxgl_indoor.Indoor(map);
 
+        var customData;
+
         // Retrieve the geojson from the path and add the map
         fetch('maps/gare-de-l-est.geojson')
             .then(res => res.json())
             .then(geojson => {
                 indoor.addMap(mapboxgl_indoor.IndoorMap.fromGeojson(geojson));
+                customData = geojson;
             });
+
+            function forwardGeocoder(query) {
+            var matchingFeatures = [];
+
+            for (var i = 0; i < customData.features.length; i++) {
+                var feature = customData.features[i];
+                if (feature.properties.hasOwnProperty('name') &&
+                    feature.properties['name']
+                        .toLowerCase()
+                        .search(query.toLowerCase()) !== -1
+                ) {
+                    feature['place_name'] = feature.properties['name'];
+                    feature['center'] = turf.centroid(feature).geometry.coordinates;
+                    feature['place_type'] = ['park'];
+                    matchingFeatures.push(feature);
+                } else if (feature.properties.hasOwnProperty('name') &&
+                    feature.properties.name
+                        .toLowerCase()
+                        .search(query.toLowerCase()) !== -1
+                ) {
+                    feature['place_name'] = feature.properties.name;
+                    feature['center'] = turf.centroid(feature).geometry.coordinates;
+                    feature['place_type'] = ['park'];
+                    matchingFeatures.push(feature);
+                }
+            }
+            return matchingFeatures;
+        }
+        let geocoder = new MapboxGeocoder({
+            localGeocoderOnly: true,
+            localGeocoder: forwardGeocoder,
+            zoom: 19,
+            placeholder: 'Enter search e.g. Room',
+            mapboxgl: mapboxgl,
+            marker: true,
+        });
+        geocoder.on("result", (result) => {
+            indoor.setLevel(parseInt(result.result.properties.level));
+        })
+        map.addControl(geocoder, 'top-right');
+
+        // Add zoom and rotation controls to the map.
+        map.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
+
+        // Add the specific control
+        map.addControl(new mapboxgl_indoor.IndoorControl(indoor), 'top-right');
+
 
         // Add the specific control
         map.addControl(new mapboxgl_indoor.IndoorControl(indoor));
 
-
-        map.on('indoor.map.loaded', console.log);
-        map.on('indoor.map.unloaded', console.log);
-        map.on('indoor.level.changed', console.log);
     </script>
 
 </body>
