@@ -7,7 +7,7 @@ __Note:__ This is a work in progress and we welcome contributions.
 
 ## Demo
 
-https://indoor.thibaud-michel.com/caserne
+https://mapbox-gl-indoor.github.io/
 
 <img src="https://user-images.githubusercontent.com/3089186/81498920-f2ed3300-92c7-11ea-8314-1a5175c5e73a.png" style="max-width:600px" />
 
