@@ -9,7 +9,7 @@
     <script src="/node_modules/mapbox-gl/dist/mapbox-gl.js"></script>
     <script src="/node_modules/osmtogeojson/osmtogeojson.js"></script>
     <script src='../debug/access_token_generated.js'></script>
-    <script src="../dist/mapbox-gl-indoor.js"></script>
+    <script src="../dist/mapbox-gl-indoor.umd.js"></script>
 
     <link href="/node_modules/mapbox-gl/dist/mapbox-gl.css" rel="stylesheet" />
 
@@ -47,7 +47,7 @@
 
 
         // Create the indoor handler
-        const indoor = new mapboxgl_indoor.Indoor(map);
+        const indoor = new mapboxgl.Indoor(map);
 
         // Retrieve the geojson from the osm path
         fetch('maps/caserne.osm')
@@ -55,11 +55,11 @@
             .then(osmString => (new window.DOMParser()).parseFromString(osmString, "text/xml"))
             .then(osmXml => osmtogeojson(osmXml))
             .then(geojson => {
-                indoor.addMap(mapboxgl_indoor.IndoorMap.fromGeojson(geojson));
+                indoor.addMap(mapboxgl.IndoorMap.fromGeojson(geojson));
             });
 
         // Add the specific control
-        map.addControl(new mapboxgl_indoor.IndoorControl(indoor));
+        map.addControl(new mapboxgl.IndoorControl(indoor));
 
     </script>
 

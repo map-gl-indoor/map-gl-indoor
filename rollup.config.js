@@ -4,56 +4,65 @@ import json from '@rollup/plugin-json';
 import commonjs from '@rollup/plugin-commonjs';
 import { terser } from "rollup-plugin-terser";
 
-import * as mapboxglPackage from './node_modules/mapbox-gl/package.json';
+import pkg from './package.json'
 
-const paths = {
-    'mapbox-gl': 'https://api.mapbox.com/mapbox-gl-js/v' + mapboxglPackage.version + '/mapbox-gl.js'
+const input = 'src/index.ts';
+
+const outputUmd = {
+    file: pkg.main.slice(0, -3) + ".umd" + pkg.main.slice(-3),
+    format: 'umd',
+    name: 'foobar' /* unused */
 };
 
-const globals = {
-    'mapbox-gl': 'mapboxgl'
-};
-
-const outputNormal = {
-    file: 'dist/mapbox-gl-indoor.js',
-    format: 'iife',
-    name: 'mapboxgl_indoor',
-    globals,
-    paths
-};
-
-const outputMinified = Object.assign({}, outputNormal, {
-    file: 'dist/mapbox-gl-indoor.min.js',
+const outputUmdMinified = Object.assign({}, outputUmd, {
+    file: outputUmd.file.slice(0, -3) + ".min" + outputUmd.file.slice(-3),
     plugins: [terser()]
 });
 
-const outputEsm = {
-    file: "dist/mapbox-gl-indoor.esm.js",
-    format: "esm",
-    paths
-};
 
-const output = [outputNormal];
+export default [
 
-if (process.env.NODE_ENV !== 'debug') {
-    output.push(outputMinified, outputEsm);
-}
+    /**
+     * For CDN and debug
+     */
+    {
+        input,
+        output: [
+            outputUmd,
+            outputUmdMinified
+        ],
+        plugins: [
+            json(),
+            typescript(),
+            commonjs({ namedExports: { '@turf/distance': ['distance'] } }),
+            resolve({ browser: true }),
+        ]
+    },
 
-export default {
-    input: 'src/index.ts',
-    output,
-    plugins: [
-        typescript(),
-        json(),
-        commonjs({
-            namedExports: { '@turf/distance': ['distance'] }
-        }),
-        resolve({
-            jsnext: true,
-            browser: true
-        })
-    ],
-    external: [
-        'mapbox-gl'
-    ]
-};
+    /**
+     * For NPMJS
+     */
+    {
+        input,
+        output: [
+            {
+                file: pkg.module,
+                format: 'es'
+            },
+            {
+                file: pkg.main,
+                format: 'cjs'
+            }
+        ],
+        plugins: [
+            json(),
+            typescript(),
+            commonjs({ namedExports: { '@turf/distance': ['distance'] } }),
+            resolve({ browser: true, jsnext: true })
+        ],
+        external: [
+            ...Object.keys(pkg.dependencies || {}),
+            ...Object.keys(pkg.peerDependencies || {}),
+        ]
+    }
+];
