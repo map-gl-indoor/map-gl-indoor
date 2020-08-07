@@ -1,18 +1,17 @@
-import type { LngLatBounds } from 'mapbox-gl';
-
 import type { FilterSpecification, Level } from './types';
+import type { BBox2d } from '@mapbox/geojson-types';
 
 export const EarthRadius = 6371008.8;
 
-export function overlap(bounds1: LngLatBounds, bounds2: LngLatBounds) {
+export function overlap(bounds1: BBox2d, bounds2: BBox2d) {
 
     // If one rectangle is on left side of other
-    if (bounds1.getWest() > bounds2.getEast() || bounds2.getWest() > bounds1.getEast()) {
+    if (bounds1[0] > bounds2[2] || bounds2[0] > bounds1[2]) {
         return false;
     }
 
     // If one rectangle is above other
-    if (bounds1.getNorth() < bounds2.getSouth() || bounds2.getNorth() < bounds1.getSouth()) {
+    if (bounds1[3] < bounds2[1] || bounds2[3] < bounds1[1]) {
         return false;
     }
 

@@ -188,9 +188,15 @@ class Indoor {
         }
 
         const cameraBounds = this._map.getBounds();
+        const cameraBoundsTurf = [
+            cameraBounds.getWest(),
+            cameraBounds.getSouth(),
+            cameraBounds.getEast(),
+            cameraBounds.getNorth()
+        ];
 
         const mapsInBounds = this._indoorMaps.filter(indoorMap =>
-            overlap(indoorMap.bounds, cameraBounds)
+            overlap(indoorMap.bounds, cameraBoundsTurf)
         );
 
         if (mapsInBounds.length === 0) {
