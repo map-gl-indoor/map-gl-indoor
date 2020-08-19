@@ -10,7 +10,8 @@ export type IndoorMapOptions = {
     beforeLayerId?: string,
     defaultLevel?: number,
     layers?: Array<LayerSpecification>,
-    layersToHide?: Array<string>
+    layersToHide?: Array<string>,
+    showFeaturesWithEmptyLevel?: boolean
 }
 
 // The two following types should come from mapboxgl-style-spec

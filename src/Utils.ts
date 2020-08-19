@@ -18,71 +18,77 @@ export function overlap(bounds1: BBox2d, bounds2: BBox2d) {
     return true;
 }
 
-export function filterWithLevel(initialFilter: FilterSpecification, level: Level): any {
+export function filterWithLevel(initialFilter: FilterSpecification, level: Level, showFeaturesWithEmptyLevel: boolean = false): any {
     return [
         "all",
+        initialFilter,
         [
-            "has",
-            "level"
-        ],
-        [
-            "any",
+            'any',
+            showFeaturesWithEmptyLevel ? ["!", ["has", "level"]] : false,
             [
-                "==",
-                ["get", "level"],
-                level.toString()
-            ],
-            [
-                "all",
+                'all',
                 [
-                    "!=",
-                    [
-                        "index-of",
-                        ";",
-                        ["get", "level"]
-                    ],
-                    -1,
+                    "has",
+                    "level"
                 ],
                 [
-
-                    ">=",
-                    level,
+                    "any",
                     [
-                        "to-number",
+                        "==",
+                        ["get", "level"],
+                        level.toString()
+                    ],
+                    [
+                        "all",
                         [
-                            "slice",
-                            ["get", "level"],
-                            0,
+                            "!=",
                             [
                                 "index-of",
                                 ";",
                                 ["get", "level"]
-                            ]
-                        ]
-                    ]
-                ],
-                [
-                    "<=",
-                    level,
-                    [
-                        "to-number",
+                            ],
+                            -1,
+                        ],
                         [
-                            "slice",
-                            ["get", "level"],
+                            ">=",
+                            level,
                             [
-                                "+",
+                                "to-number",
                                 [
-                                    "index-of",
-                                    ";",
-                                    ["get", "level"]
-                                ],
-                                1
+                                    "slice",
+                                    ["get", "level"],
+                                    0,
+                                    [
+                                        "index-of",
+                                        ";",
+                                        ["get", "level"]
+                                    ]
+                                ]
+                            ]
+                        ],
+                        [
+                            "<=",
+                            level,
+                            [
+                                "to-number",
+                                [
+                                    "slice",
+                                    ["get", "level"],
+                                    [
+                                        "+",
+                                        [
+                                            "index-of",
+                                            ";",
+                                            ["get", "level"]
+                                        ],
+                                        1
+                                    ]
+                                ]
                             ]
                         ]
                     ]
                 ]
             ]
-        ],
-        initialFilter
+        ]
     ];
 }

@@ -15,6 +15,7 @@ class IndoorMap {
     beforeLayerId?: string;
     layersToHide: Array<string>;
     defaultLevel: number;
+    showFeaturesWithEmptyLevel: boolean;
 
     static fromGeojson(geojson: GeoJSON, options: IndoorMapOptions = {}) {
 
@@ -28,6 +29,7 @@ class IndoorMap {
         map.layersToHide = options.layersToHide ? options.layersToHide : [];
         map.beforeLayerId = options.beforeLayerId;
         map.defaultLevel = options.defaultLevel ? options.defaultLevel : 0;
+        map.showFeaturesWithEmptyLevel = options.showFeaturesWithEmptyLevel ? options.showFeaturesWithEmptyLevel : false;
 
         return map;
     }

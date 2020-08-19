@@ -91,7 +91,8 @@ class Indoor {
 
         let filterFn: (filter: FilterSpecification) => FilterSpecification;
         if (level !== null) {
-            filterFn = (filter: FilterSpecification) => filterWithLevel(filter, level);
+            const showFeaturesWithEmptyLevel = this._selectedMap ? this._selectedMap.showFeaturesWithEmptyLevel : false;
+            filterFn = (filter: FilterSpecification) => filterWithLevel(filter, level, showFeaturesWithEmptyLevel);
         } else {
             filterFn = (filter: FilterSpecification): FilterSpecification => filter;
         }
