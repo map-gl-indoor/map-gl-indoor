@@ -53,7 +53,7 @@ class Indoor {
         this._map.on('moveend', () => this._updateSelectedMapIfNeeded());
     }
 
-    getSelectedMap() : IndoorMap | null {
+    getSelectedMap(): IndoorMap | null {
         return this._selectedMap;
     }
 
@@ -127,7 +127,6 @@ class Indoor {
         const closestMap = this.closestMap();
         if (closestMap !== this._selectedMap) {
             this._updateSelectedMap(closestMap);
-            this._selectedMap = closestMap;
         }
     }
 
@@ -170,6 +169,7 @@ class Indoor {
         // Hide layers which can overlap for rendering
         indoorMap.layersToHide.forEach(layerId => this._map.setLayoutProperty(layerId, 'visibility', 'none'));
 
+        this._selectedMap = indoorMap;
         this._map.fire('indoor.map.loaded', { indoorMap });
 
         // Restore the same level when the previous selected map is the same.
