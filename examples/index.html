@@ -8,7 +8,7 @@
     <script src='https://unpkg.com/@turf/turf/turf.min.js'></script>
     <script src="https://api.mapbox.com/mapbox-gl-js/v1.10.0/mapbox-gl.js"></script>
     <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.5.1/mapbox-gl-geocoder.min.js"></script>
-    <script src="../dist/mapbox-gl-indoor.js"></script>
+    <script src="../dist/mapbox-gl-indoor.umd.js"></script>
 
     <link href="https://api.mapbox.com/mapbox-gl-js/v1.10.0/mapbox-gl.css" rel="stylesheet" />
     <link rel="stylesheet"
@@ -49,7 +49,7 @@
          */
 
         // Create the indoor handler
-        const indoor = new mapboxgl_indoor.Indoor(map);
+        const indoor = new mapboxgl.Indoor(map);
 
         var customData;
 
@@ -57,7 +57,7 @@
         fetch('maps/gare-de-l-est.geojson')
             .then(res => res.json())
             .then(geojson => {
-                indoor.addMap(mapboxgl_indoor.IndoorMap.fromGeojson(geojson));
+                indoor.addMap(mapboxgl.IndoorMap.fromGeojson(geojson));
                 customData = geojson;
             });
 
@@ -106,7 +106,7 @@
         map.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
 
         // Add the specific control
-        map.addControl(new mapboxgl_indoor.IndoorControl(indoor), 'top-right');
+        map.addControl(new mapboxgl.IndoorControl(indoor), 'top-right');
 
     </script>
 

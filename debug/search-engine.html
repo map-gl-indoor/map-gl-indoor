@@ -8,7 +8,7 @@
 
     <script src="/node_modules/mapbox-gl/dist/mapbox-gl.js"></script>
     <script src='../debug/access_token_generated.js'></script>
-    <script src="../dist/mapbox-gl-indoor.js"></script>
+    <script src="../dist/mapbox-gl-indoor.umd.js"></script>
 
     <link href="/node_modules/mapbox-gl/dist/mapbox-gl.css" rel="stylesheet" />
 
@@ -53,7 +53,7 @@
 
 
         // Create the indoor handler
-        const indoor = new mapboxgl_indoor.Indoor(map);
+        const indoor = new mapboxgl.Indoor(map);
 
         var customData;
 
@@ -61,7 +61,7 @@
         fetch('maps/gare-de-l-est.geojson')
             .then(res => res.json())
             .then(geojson => {
-                indoor.addMap(mapboxgl_indoor.IndoorMap.fromGeojson(geojson));
+                indoor.addMap(mapboxgl.IndoorMap.fromGeojson(geojson));
                 customData = geojson;
             });
 
@@ -105,7 +105,7 @@
 
 
         // Add the specific control
-        map.addControl(new mapboxgl_indoor.IndoorControl(indoor), 'top-left');
+        map.addControl(new mapboxgl.IndoorControl(indoor), 'top-left');
 
     </script>
 

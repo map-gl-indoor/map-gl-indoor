@@ -66,7 +66,8 @@ function createPoiLayers(metaLayer: LayerSpecification): Array<LayerSpecificatio
         const newLayer = Object.assign({}, metaLayer);
         newLayer.id += `-${poi.maki}`;
         newLayer.filter = poi.filter;
-        newLayer.layout['icon-image'] = (`${poi.maki}-15`);
+        newLayer.layout = Object.assign({}, metaLayer.layout);
+        newLayer.layout['icon-image'] = `${poi.maki}-15`;
         return newLayer;
     });
 }

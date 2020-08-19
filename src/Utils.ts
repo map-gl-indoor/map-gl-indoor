@@ -1,89 +1,94 @@
-import type { LngLatBounds } from 'mapbox-gl';
-
 import type { FilterSpecification, Level } from './types';
+import type { BBox2d } from '@mapbox/geojson-types';
 
 export const EarthRadius = 6371008.8;
 
-export function overlap(bounds1: LngLatBounds, bounds2: LngLatBounds) {
+export function overlap(bounds1: BBox2d, bounds2: BBox2d) {
 
     // If one rectangle is on left side of other
-    if (bounds1.getWest() > bounds2.getEast() || bounds2.getWest() > bounds1.getEast()) {
+    if (bounds1[0] > bounds2[2] || bounds2[0] > bounds1[2]) {
         return false;
     }
 
     // If one rectangle is above other
-    if (bounds1.getNorth() < bounds2.getSouth() || bounds2.getNorth() < bounds1.getSouth()) {
+    if (bounds1[3] < bounds2[1] || bounds2[3] < bounds1[1]) {
         return false;
     }
 
     return true;
 }
 
-export function filterWithLevel(initialFilter: FilterSpecification, level: Level): any {
+export function filterWithLevel(initialFilter: FilterSpecification, level: Level, showFeaturesWithEmptyLevel: boolean = false): any {
     return [
         "all",
+        initialFilter,
         [
-            "has",
-            "level"
-        ],
-        [
-            "any",
+            'any',
+            showFeaturesWithEmptyLevel ? ["!", ["has", "level"]] : false,
             [
-                "==",
-                ["get", "level"],
-                level.toString()
-            ],
-            [
-                "all",
+                'all',
                 [
-                    "!=",
-                    [
-                        "index-of",
-                        ";",
-                        ["get", "level"]
-                    ],
-                    -1,
+                    "has",
+                    "level"
                 ],
                 [
-
-                    ">=",
-                    level,
+                    "any",
                     [
-                        "to-number",
+                        "==",
+                        ["get", "level"],
+                        level.toString()
+                    ],
+                    [
+                        "all",
                         [
-                            "slice",
-                            ["get", "level"],
-                            0,
+                            "!=",
                             [
                                 "index-of",
                                 ";",
                                 ["get", "level"]
-                            ]
-                        ]
-                    ]
-                ],
-                [
-                    "<=",
-                    level,
-                    [
-                        "to-number",
+                            ],
+                            -1,
+                        ],
                         [
-                            "slice",
-                            ["get", "level"],
+                            ">=",
+                            level,
                             [
-                                "+",
+                                "to-number",
                                 [
-                                    "index-of",
-                                    ";",
-                                    ["get", "level"]
-                                ],
-                                1
+                                    "slice",
+                                    ["get", "level"],
+                                    0,
+                                    [
+                                        "index-of",
+                                        ";",
+                                        ["get", "level"]
+                                    ]
+                                ]
+                            ]
+                        ],
+                        [
+                            "<=",
+                            level,
+                            [
+                                "to-number",
+                                [
+                                    "slice",
+                                    ["get", "level"],
+                                    [
+                                        "+",
+                                        [
+                                            "index-of",
+                                            ";",
+                                            ["get", "level"]
+                                        ],
+                                        1
+                                    ]
+                                ]
                             ]
                         ]
                     ]
                 ]
             ]
-        ],
-        initialFilter
+        ]
     ];
 }

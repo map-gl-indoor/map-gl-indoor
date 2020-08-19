@@ -2,19 +2,20 @@ import Style from './style';
 import GeoJsonHelper from './GeojsonHelper';
 
 import type { GeoJSON } from 'geojson';
-import type { LngLatBounds } from 'mapbox-gl';
 
 import type { LevelsRange, IndoorMapOptions, LayerSpecification } from './types';
+import type { BBox2d } from '@mapbox/geojson-types';
 
 class IndoorMap {
 
-    bounds: LngLatBounds;
+    bounds: BBox2d;
     geojson: any;
     layers: Array<LayerSpecification>;
     levelsRange: LevelsRange;
     beforeLayerId?: string;
     layersToHide: Array<string>;
     defaultLevel: number;
+    showFeaturesWithEmptyLevel: boolean;
 
     static fromGeojson(geojson: GeoJSON, options: IndoorMapOptions = {}) {
 
@@ -28,6 +29,7 @@ class IndoorMap {
         map.layersToHide = options.layersToHide ? options.layersToHide : [];
         map.beforeLayerId = options.beforeLayerId;
         map.defaultLevel = options.defaultLevel ? options.defaultLevel : 0;
+        map.showFeaturesWithEmptyLevel = options.showFeaturesWithEmptyLevel ? options.showFeaturesWithEmptyLevel : false;
 
         return map;
     }

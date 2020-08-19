@@ -8,7 +8,7 @@
 
     <script src="/node_modules/mapbox-gl/dist/mapbox-gl.js"></script>
     <script src='../debug/access_token_generated.js'></script>
-    <script src="../dist/mapbox-gl-indoor.js"></script>
+    <script src="../dist/mapbox-gl-indoor.umd.js"></script>
 
     <link href="/node_modules/mapbox-gl/dist/mapbox-gl.css" rel="stylesheet" />
 
@@ -64,7 +64,7 @@
 
 
         // Create indoor handler
-        const indoor = new mapboxgl_indoor.Indoor(map);
+        const indoor = new mapboxgl.Indoor(map);
 
         // Create custom maps
         // Note: center is just used to switch between the three maps using map.flyTo() in the menu.
@@ -89,14 +89,14 @@
             const geojson = await (await fetch(path)).json();
 
             // Create indoor map from geojson and options
-            const indoorMap = mapboxgl_indoor.IndoorMap.fromGeojson(geojson, { beforeLayerId, layersToHide, defaultLevel });
+            const indoorMap = mapboxgl.IndoorMap.fromGeojson(geojson, { beforeLayerId, layersToHide, defaultLevel });
 
             // Add map to the indoor handler
             indoor.addMap(indoorMap);
         });
 
         // Add the specific control
-        map.addControl(new mapboxgl_indoor.IndoorControl(indoor));
+        map.addControl(new mapboxgl.IndoorControl(indoor));
 
 
     </script>
