@@ -36,6 +36,9 @@ export default [
             typescript(),
             commonjs({ namedExports: { '@turf/distance': ['distance'] } }),
             resolve({ browser: true }),
+        ],
+        external: [
+            'mapbox-gl',
         ]
     },
 
