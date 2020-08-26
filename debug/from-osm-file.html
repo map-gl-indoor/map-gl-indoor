@@ -45,21 +45,17 @@
          * Indoor specific
          */
 
-
-        // Create the indoor handler
-        const indoor = new mapboxgl.Indoor(map);
-
         // Retrieve the geojson from the osm path
         fetch('maps/caserne.osm')
             .then(response => response.text())
             .then(osmString => (new window.DOMParser()).parseFromString(osmString, "text/xml"))
             .then(osmXml => osmtogeojson(osmXml))
             .then(geojson => {
-                indoor.addMap(mapboxgl.IndoorMap.fromGeojson(geojson));
+                map.indoor.addMap(mapboxgl_indoor.IndoorMap.fromGeojson(geojson));
             });
 
         // Add the specific control
-        map.addControl(new mapboxgl.IndoorControl(indoor));
+        map.addControl(map.indoor.control);
 
     </script>
 

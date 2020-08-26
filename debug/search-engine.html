@@ -51,17 +51,13 @@
          * Indoor specific
          */
 
-
-        // Create the indoor handler
-        const indoor = new mapboxgl.Indoor(map);
-
         var customData;
 
         // Retrieve the geojson from the path and add the map
         fetch('maps/gare-de-l-est.geojson')
             .then(res => res.json())
             .then(geojson => {
-                indoor.addMap(mapboxgl.IndoorMap.fromGeojson(geojson));
+                map.indoor.addMap(mapboxgl_indoor.IndoorMap.fromGeojson(geojson));
                 customData = geojson;
             });
 
@@ -96,7 +92,7 @@
                             geocoder.result.hasOwnProperty('properties') &&
                             geocoder.result.properties.hasOwnProperty('level')
                         ) {
-                            indoor.setLevel(parseInt(geocoder.result.properties.level));
+                            map.indoor.setLevel(parseInt(geocoder.result.properties.level));
                         }
                     }
                 }
@@ -105,7 +101,7 @@
 
 
         // Add the specific control
-        map.addControl(new mapboxgl.IndoorControl(indoor), 'top-left');
+        map.addControl(map.indoor.control, 'top-left');
 
     </script>
 

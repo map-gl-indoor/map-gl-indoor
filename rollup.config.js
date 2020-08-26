@@ -11,7 +11,10 @@ const input = 'src/index.ts';
 const outputUmd = {
     file: pkg.main.slice(0, -3) + ".umd" + pkg.main.slice(-3),
     format: 'umd',
-    name: 'foobar' /* unused */
+    name: 'mapboxgl_indoor',
+    globals: {
+        'mapbox-gl': 'mapboxgl'
+    }
 };
 
 const outputUmdMinified = Object.assign({}, outputUmd, {
@@ -38,7 +41,7 @@ export default [
             resolve({ browser: true }),
         ],
         external: [
-            'mapbox-gl',
+            'mapbox-gl'
         ]
     },
 
@@ -60,7 +63,6 @@ export default [
         plugins: [
             json(),
             typescript(),
-            commonjs({ namedExports: { '@turf/distance': ['distance'] } }),
             resolve({ browser: true, jsnext: true })
         ],
         external: [

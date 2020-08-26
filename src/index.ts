@@ -1,10 +1,20 @@
+import mapboxgl from 'mapbox-gl';
+
 import Indoor from './Indoor';
-import IndoorControl from './IndoorControl';
 import IndoorMap from './IndoorMap';
-import IndoorStyle from './style';
+import DefaultStyle from './style';
 
-if (typeof window !== 'undefined' && window.mapboxgl) {
-    Object.assign(window.mapboxgl, { Indoor, IndoorControl, IndoorMap, IndoorStyle });
-}
+Object.defineProperty(
+    mapboxgl.Map.prototype,
+    'indoor',
+    {
+        get: function () {
+            if (!this._indoor) {
+                this._indoor = new Indoor(this);
+            }
+            return this._indoor;
+        }
+    });
 
-export { Indoor, IndoorControl, IndoorMap, IndoorStyle };
+
+export { IndoorMap, DefaultStyle };

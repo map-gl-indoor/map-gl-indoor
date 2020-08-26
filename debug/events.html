@@ -45,18 +45,15 @@
          * Indoor specific
          */
 
-        // Create the indoor handler
-        const indoor = new mapboxgl.Indoor(map);
-
         // Retrieve the geojson from the path and add the map
         fetch('maps/gare-de-l-est.geojson')
             .then(res => res.json())
             .then(geojson => {
-                indoor.addMap(mapboxgl.IndoorMap.fromGeojson(geojson));
+                map.indoor.addMap(mapboxgl_indoor.IndoorMap.fromGeojson(geojson));
             });
 
         // Add the specific control
-        map.addControl(new mapboxgl.IndoorControl(indoor));
+        map.addControl(map.indoor.control);
 
 
         map.on('indoor.map.loaded', console.log);

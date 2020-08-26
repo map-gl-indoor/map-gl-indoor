@@ -1,6 +1,7 @@
 import { distance } from '@turf/distance';
 
 import IndoorMap from './IndoorMap';
+import IndoorControl from './IndoorControl';
 import { overlap, filterWithLevel } from './Utils';
 
 type SavedFilter = {
@@ -30,6 +31,8 @@ class Indoor {
     _savedFilters: Array<SavedFilter>;
     _mapLoaded: boolean;
 
+    _control: IndoorControl;
+
     constructor(map: Map) {
         this._map = map;
         this._level = null;
@@ -40,6 +43,8 @@ class Indoor {
         this._previousSelectedMap = null;
         this._previousSelectedLevel = null;
         this._mapLoaded = false;
+
+        this._control = new IndoorControl(this);
 
         if (this._map.loaded()) {
             this._mapLoaded = true;
@@ -65,6 +70,10 @@ class Indoor {
         this._level = level;
         this._updateFiltering();
         this._map.fire('indoor.level.changed', { level });
+    }
+
+    get control() : IndoorControl {
+        return this._control;
     }
 
     /**
