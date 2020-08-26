@@ -135,6 +135,7 @@ class Indoor {
 
         const previousMap = this._selectedMap;
         const previousMapLevel = this._level;
+        this._selectedMap = indoorMap;
 
         // Remove the previous selected map if it exists
         if (previousMap !== null) {
@@ -170,7 +171,6 @@ class Indoor {
         // Hide layers which can overlap for rendering
         indoorMap.layersToHide.forEach(layerId => this._map.setLayoutProperty(layerId, 'visibility', 'none'));
 
-        this._selectedMap = indoorMap;
         this._map.fire('indoor.map.loaded', { indoorMap });
 
         // Restore the same level when the previous selected map is the same.
