@@ -33,6 +33,7 @@ class IndoorControl {
         this._container = document.createElement("div");
         this._container.classList.add("mapboxgl-ctrl");
         this._container.classList.add("mapboxgl-ctrl-group");
+        this._container.style.display = 'none';
         this._container.addEventListener('contextmenu', this._onContextMenu);
 
         // If indoor layer is already loaded, update levels
@@ -76,11 +77,11 @@ class IndoorControl {
         }
 
         if (this._indoorMap === null) {
-            this._container.style.visibility = 'hidden';
+            this._container.style.display = 'none';
             return;
         }
 
-        this._container.style.visibility = 'visible';
+        this._container.style.display = 'block';
 
         this._levelsButtons = [];
         while (this._container.firstChild) {
