@@ -52,6 +52,7 @@ class IndoorControl {
     }
 
     onRemove() {
+        this._container.remove();
         this._container = null;
         this._map.off('indoor.map.loaded', this._onMapLoaded);
         this._map.off('indoor.map.unloaded', this._onMapUnLoaded);
