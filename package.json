@@ -1,7 +1,7 @@
 {
   "name": "mapbox-gl-indoor",
   "description": "Visualize multi-level buildings",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "main": "dist/mapbox-gl-indoor.js",
   "module": "dist/mapbox-gl-indoor.es.js",
   "files": [
