@@ -4,11 +4,11 @@ import GeoJsonHelper from './GeojsonHelper';
 import type { GeoJSON } from 'geojson';
 
 import type { LevelsRange, IndoorMapOptions, LayerSpecification } from './types';
-import type { BBox2d } from '@mapbox/geojson-types';
+import type { LngLatBounds } from 'mapbox-gl';
 
 class IndoorMap {
 
-    bounds: BBox2d;
+    bounds: LngLatBounds;
     geojson: any;
     layers: Array<LayerSpecification>;
     levelsRange: LevelsRange;

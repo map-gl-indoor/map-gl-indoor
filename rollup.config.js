@@ -37,7 +37,7 @@ export default [
         plugins: [
             json(),
             typescript(),
-            commonjs({ namedExports: { '@turf/distance': ['distance'] } }),
+            commonjs(),
             resolve({ browser: true }),
         ],
         external: [

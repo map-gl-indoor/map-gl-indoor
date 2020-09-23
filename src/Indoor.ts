@@ -1,8 +1,6 @@
-import { distance } from '@turf/distance';
-
 import IndoorMap from './IndoorMap';
 import IndoorControl from './IndoorControl';
-import { overlap, filterWithLevel } from './Utils';
+import { overlap, filterWithLevel, distance } from './Utils';
 
 type SavedFilter = {
     layerId: string,
@@ -198,15 +196,8 @@ class Indoor {
         }
 
         const cameraBounds = this._map.getBounds();
-        const cameraBoundsTurf = [
-            cameraBounds.getWest(),
-            cameraBounds.getSouth(),
-            cameraBounds.getEast(),
-            cameraBounds.getNorth()
-        ];
-
         const mapsInBounds = this._indoorMaps.filter(indoorMap =>
-            overlap(indoorMap.bounds, cameraBoundsTurf)
+            overlap(indoorMap.bounds, cameraBounds)
         );
 
         if (mapsInBounds.length === 0) {
