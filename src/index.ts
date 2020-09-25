@@ -2,6 +2,7 @@ import mapboxgl from 'mapbox-gl';
 
 import Indoor from './Indoor';
 import IndoorMap from './IndoorMap';
+import MapServerHandler from './MapServerHandler';
 import DefaultStyle from './style';
 
 Object.defineProperty(
@@ -17,4 +18,4 @@ Object.defineProperty(
     });
 
 
-export { IndoorMap, DefaultStyle };
+export { IndoorMap, MapServerHandler, DefaultStyle };
