@@ -82,7 +82,7 @@ class MapServerHandler {
     }
 
     private loadMapsInBounds = async (bounds: LngLatBounds) => {
-        const url = this.serverUrl + `maps-in-bounds/${bounds.getWest()},${bounds.getSouth()},${bounds.getEast()},${bounds.getNorth()}`;
+        const url = this.serverUrl + `/maps-in-bounds/${bounds.getWest()},${bounds.getSouth()},${bounds.getEast()},${bounds.getNorth()}`;
         const maps = await (await fetch(url)).json();
 
         const mapsToRemove = this.remoteMapsDownloaded.reduce((acc, map) => {
@@ -104,7 +104,7 @@ class MapServerHandler {
     };
 
     private addCustomMap = async (map: RemoteMap) => {
-        const geojson = await (await fetch(map.path)).json();
+        const geojson = await (await fetch(this.serverUrl + map.path)).json();
         map.indoorMap = IndoorMap.fromGeojson(geojson, this.indoorMapOptions);
         this.map.indoor.addMap(map.indoorMap);
         this.remoteMapsDownloaded.push(map);
