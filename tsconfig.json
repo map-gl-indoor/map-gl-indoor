@@ -7,16 +7,9 @@
     ],
     "module": "esnext",
     "moduleResolution": "node",
-    "outDir": "./dist",
     "resolveJsonModule": true,
-    "sourceMap": true,
+    "rootDir": "./src",
     "strictPropertyInitialization": false,
     "target": "ESNext"
-  },
-  "include": [
-    "src/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  }
 }
