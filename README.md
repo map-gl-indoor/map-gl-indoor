@@ -20,18 +20,25 @@ Transform the osm file into a geojson using [osmtogeojson](https://github.com/ty
 Then use the following code:
 
 ```js
-// Create the indoor handler
-const indoor = new Indoor(map);
+import { Map } from 'mapbox-gl';
+import { IndoorMap, IndoorControl } from 'mapbox-gl-indoor';
+
+const map = new Map({
+    accessToken,
+    container,
+    style: 'mapbox://styles/mapbox/streets-v10'
+});
 
 // Retrieve the geojson from the path and add the map
 fetch('maps/gare-de-l-est.geojson')
     .then(res => res.json())
     .then(geojson => {
-        indoor.addMap(IndoorMap.fromGeojson(geojson));
+        const indoorMap = IndoorMap.fromGeojson(geojson);
+        map.indoor.addMap(indoorMap);
     });
 
 // Add the specific control
-map.addControl(new IndoorControl(indoor));
+map.addControl(map.indoor.control);
 ```
 
 ## Options
