@@ -9,7 +9,7 @@
     <script src="/node_modules/mapbox-gl/dist/mapbox-gl.js"></script>
     <script src="/node_modules/osmtogeojson/osmtogeojson.js"></script>
     <script src='../debug/access_token_generated.js'></script>
-    <script src="../dist/mapbox-gl-indoor.umd.js"></script>
+    <script src="../dist/map-gl-indoor.umd.js"></script>
 
     <link href="/node_modules/mapbox-gl/dist/mapbox-gl.css" rel="stylesheet" />
 
@@ -51,7 +51,7 @@
             .then(osmString => (new window.DOMParser()).parseFromString(osmString, "text/xml"))
             .then(osmXml => osmtogeojson(osmXml))
             .then(geojson => {
-                map.indoor.addMap(mapboxgl_indoor.IndoorMap.fromGeojson(geojson));
+                map.indoor.addMap(mapgl_indoor.IndoorMap.fromGeojson(geojson));
             });
 
         // Add the specific control

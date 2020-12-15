@@ -1,12 +1,12 @@
 version: "3"
 services:
-  mapbox-gl-indoor:
+  map-gl-indoor:
     build:
       context: .
       dockerfile: Dockerfile
-    image: indoor/mapbox-gl-indoor
+    image: indoor/map-gl-indoor
     ports:
     - 8888:80
     volumes:
-    - ./examples/index.html:/mapbox-gl-indoor/index.html
+    - ./examples/index.html:/map-gl-indoor/index.html
 

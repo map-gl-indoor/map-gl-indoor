@@ -11,7 +11,7 @@ const input = 'src/index.ts';
 const outputUmd = {
     file: pkg.main.slice(0, -3) + ".umd" + pkg.main.slice(-3),
     format: 'umd',
-    name: 'mapboxgl_indoor',
+    name: 'mapgl_indoor',
     globals: {
         'mapbox-gl': 'mapboxgl'
     }
