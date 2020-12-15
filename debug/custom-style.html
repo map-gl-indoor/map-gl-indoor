@@ -8,7 +8,7 @@
 
     <script src="/node_modules/mapbox-gl/dist/mapbox-gl.js"></script>
     <script src='../debug/access_token_generated.js'></script>
-    <script src="../dist/mapbox-gl-indoor.umd.js"></script>
+    <script src="../dist/map-gl-indoor.umd.js"></script>
 
     <link href="/node_modules/mapbox-gl/dist/mapbox-gl.css" rel="stylesheet" />
 
@@ -80,7 +80,7 @@
             .then(res => res.json())
             .then(geojson => {
                 map.indoor.addMap(
-                    mapboxgl_indoor.IndoorMap.fromGeojson(geojson, { layers })
+                    mapgl_indoor.IndoorMap.fromGeojson(geojson, { layers })
                 );
             });
 

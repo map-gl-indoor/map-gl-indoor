@@ -1,9 +1,9 @@
 {
-  "name": "mapbox-gl-indoor",
+  "name": "map-gl-indoor",
   "description": "Visualize multi-level buildings",
   "version": "0.1.3",
-  "main": "dist/mapbox-gl-indoor.js",
-  "module": "dist/mapbox-gl-indoor.es.js",
+  "main": "dist/map-gl-indoor.js",
+  "module": "dist/map-gl-indoor.es.js",
   "files": [
     "dist"
   ],
@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/mapbox-gl-indoor/mapbox-gl-indoor.git"
+    "url": "git://github.com/map-gl-indoor/map-gl-indoor.git"
   },
   "keywords": [
     "indoor",
@@ -26,6 +26,7 @@
     "multi-level",
     "floors",
     "geojson",
+    "map",
     "mapbox",
     "mapboxgl",
     "ui"

@@ -9,7 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@turf/turf@5/turf.min.js"></script>
     <script src="/node_modules/mapbox-gl/dist/mapbox-gl.js"></script>
     <script src='../debug/access_token_generated.js'></script>
-    <script src="../dist/mapbox-gl-indoor.umd.js"></script>
+    <script src="../dist/map-gl-indoor.umd.js"></script>
 
     <link href="/node_modules/mapbox-gl/dist/mapbox-gl.css" rel="stylesheet" />
 
@@ -51,7 +51,7 @@
             layersToHide : ['poi-scalerank4-l15', 'poi-scalerank4-l1', 'poi-scalerank3', 'road-label-small']
         }
 
-        mapboxgl_indoor.MapServerHandler.manage(SERVER_URL, map, indoorMapsOptions);
+        mapgl_indoor.MapServerHandler.manage(SERVER_URL, map, indoorMapsOptions);
 
         // Add the specific control
         mapboxglMap.addControl(mapboxglMap.indoor.control);
