@@ -65,12 +65,17 @@ class Indoor {
     }
 
     setLevel(level: Level | null): void {
+
+        if (this._selectedMap === null) {
+            throw new Error('Cannot set level, no map has been selected');
+        }
+
         this._level = level;
         this._updateFiltering();
         this._map.fire('indoor.level.changed', { level });
     }
 
-    get control() : IndoorControl {
+    get control(): IndoorControl {
         return this._control;
     }
 
@@ -141,28 +146,28 @@ class Indoor {
     _updateSelectedMap(indoorMap: IndoorMap | null) {
 
         const previousMap = this._selectedMap;
-        const previousMapLevel = this._level;
-        this._selectedMap = indoorMap;
 
         // Remove the previous selected map if it exists
         if (previousMap !== null) {
             previousMap.layersToHide.forEach(layerId => this._map.setLayoutProperty(layerId, 'visibility', 'visible'));
             previousMap.layers.forEach(({ id }) => this._removeLayerForFiltering(id));
             this._map.removeSource(SOURCE_ID);
-        }
 
-        if (!indoorMap) {
-            // Save the previous map level.
-            // It enables the user to exit and re-enter, keeping the same level shown.
-            this._previousSelectedLevel = previousMapLevel;
-            this._previousSelectedMap = previousMap;
+            if (!indoorMap) {
+                // Save the previous map level.
+                // It enables the user to exit and re-enter, keeping the same level shown.
+                this._previousSelectedLevel = this._level;
+                this._previousSelectedMap = previousMap;
+            }
 
             this.setLevel(null);
-
             this._map.fire('indoor.map.unloaded', { indoorMap: previousMap });
-            return;
         }
 
+        this._selectedMap = indoorMap;
+        if (!indoorMap) {
+            return;
+        }
 
         const { geojson, layers, levelsRange, beforeLayerId } = indoorMap;
 
