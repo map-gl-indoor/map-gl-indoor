@@ -31,6 +31,8 @@ class Indoor {
 
     _control: IndoorControl;
 
+    _updateMapPromise: Promise<void>;
+
     constructor(map: Map) {
         this._map = map;
         this._level = null;
@@ -41,6 +43,7 @@ class Indoor {
         this._previousSelectedMap = null;
         this._previousSelectedLevel = null;
         this._mapLoaded = false;
+        this._updateMapPromise = Promise.resolve();
 
         this._control = new IndoorControl(this);
 
@@ -131,16 +134,20 @@ class Indoor {
     }
 
 
-    _updateSelectedMapIfNeeded() {
+    async _updateSelectedMapIfNeeded() {
 
         if (!this._mapLoaded) {
             return;
         }
 
-        const closestMap = this._closestMap();
-        if (closestMap !== this._selectedMap) {
-            this._updateSelectedMap(closestMap);
-        }
+        // Avoid to call "closestMap" or "updateSelectedMap" if the previous call is not finished yet
+        await this._updateMapPromise;
+        this._updateMapPromise = (async () => {
+            const closestMap = this._closestMap();
+            if (closestMap !== this._selectedMap) {
+                this._updateSelectedMap(closestMap);
+            }
+        })();
     }
 
     _updateSelectedMap(indoorMap: IndoorMap | null) {
