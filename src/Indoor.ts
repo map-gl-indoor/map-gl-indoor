@@ -137,7 +137,7 @@ class Indoor {
             return;
         }
 
-        const closestMap = this.closestMap();
+        const closestMap = this._closestMap();
         if (closestMap !== this._selectedMap) {
             this._updateSelectedMap(closestMap);
         }
@@ -193,7 +193,7 @@ class Indoor {
         this.setLevel(level);
     }
 
-    closestMap() {
+    _closestMap() {
 
         // TODO enhance this condition
         if (this._map.getZoom() < 17) {
