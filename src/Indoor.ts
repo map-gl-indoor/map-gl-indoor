@@ -190,14 +190,14 @@ class Indoor {
         // Hide layers which can overlap for rendering
         indoorMap.layersToHide.forEach(layerId => this._map.setLayoutProperty(layerId, 'visibility', 'none'));
 
-        this._map.fire('indoor.map.loaded', { indoorMap });
-
         // Restore the same level when the previous selected map is the same.
         const level = this._previousSelectedMap === indoorMap
             ? this._previousSelectedLevel
             : Math.max(Math.min(indoorMap.defaultLevel, levelsRange.max), levelsRange.min)
 
         this.setLevel(level);
+
+        this._map.fire('indoor.map.loaded', { indoorMap });
     }
 
     _closestMap() {
