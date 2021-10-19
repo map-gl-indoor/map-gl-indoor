@@ -11,6 +11,8 @@ https://map-gl-indoor.github.io/
 
 <img src="https://user-images.githubusercontent.com/3089186/81498920-f2ed3300-92c7-11ea-8314-1a5175c5e73a.png" style="max-width:600px" />
 
+or examples in the [debug](debug) directory.
+
 ## Usage
 
 Create an OSM indoor map following the [Simple Indoor Tagging guidelines](https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging).
@@ -54,6 +56,10 @@ If the [viewport](https://github.com/mapbox/mapbox-gl-js/blob/master/src/ui/map.
 
 When a level is set (initialisation or user click), only the geojson features which have the level property equals (or in the range of) to the current level are shown.
 
+
+## Provide geojson maps from a server
+
+Have a look at the side project [indoor-maps-server](https://github.com/map-gl-indoor/indoor-maps-server) and the file [debug/with-map-server.html](debug/with-map-server.html)
 
 ## Developing
 
