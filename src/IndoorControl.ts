@@ -62,6 +62,7 @@ class IndoorControl {
     _onMapLoaded = ({ indoorMap }: { indoorMap: IndoorMap }): void => {
         this._indoorMap = indoorMap;
         this._updateNavigationBar();
+        this._setSelected(this._indoor.getLevel());
     }
 
     _onMapUnLoaded = (): void => {

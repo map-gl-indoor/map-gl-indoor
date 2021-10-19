@@ -67,7 +67,7 @@ class Indoor {
         return this._level;
     }
 
-    setLevel(level: Level | null): void {
+    setLevel(level: Level | null, fireEvent: Boolean = true): void {
 
         if (this._selectedMap === null) {
             throw new Error('Cannot set level, no map has been selected');
@@ -75,7 +75,9 @@ class Indoor {
 
         this._level = level;
         this._updateFiltering();
-        this._map.fire('indoor.level.changed', { level });
+        if (fireEvent) {
+            this._map.fire('indoor.level.changed', { level });
+        }
     }
 
     get control(): IndoorControl {
@@ -167,7 +169,7 @@ class Indoor {
                 this._previousSelectedMap = previousMap;
             }
 
-            this.setLevel(null);
+            this.setLevel(null, false);
             this._map.fire('indoor.map.unloaded', { indoorMap: previousMap });
         }
 
@@ -195,7 +197,7 @@ class Indoor {
             ? this._previousSelectedLevel
             : Math.max(Math.min(indoorMap.defaultLevel, levelsRange.max), levelsRange.min)
 
-        this.setLevel(level);
+        this.setLevel(level, false);
 
         this._map.fire('indoor.map.loaded', { indoorMap });
     }
