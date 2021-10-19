@@ -6,7 +6,7 @@
             "building"
           ], [
             "has",
-            "building-part"
+            "building:part"
           ]
         ],
         "id": "buildings-background",
