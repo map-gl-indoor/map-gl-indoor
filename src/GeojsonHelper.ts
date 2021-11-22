@@ -1,5 +1,5 @@
-import { LngLatBounds } from 'mapbox-gl';
 import bbox from '@turf/bbox';
+import LngLatBounds from './LngLatBounds';
 
 import type { Feature, GeoJSON } from 'geojson';
 import type { LevelsRange } from './types';

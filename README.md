@@ -1,6 +1,6 @@
-# Mapbox GL Indoor Plugin
+# Mapbox/Maplibre GL Indoor Plugin
 
-A [mapboxgl-js](https://github.com/mapbox/mapbox-gl-js) plugin to enable multi-floors maps
+A [mapboxgl-js](https://github.com/mapbox/mapbox-gl-js)/[maplibregl-js](https://github.com/maplibre/maplibre-gl-js) plugin to enable multi-floors maps
 
 __Note:__ This is a work in progress and we welcome contributions.
 
@@ -23,13 +23,14 @@ Then use the following code:
 
 ```js
 import { Map } from 'mapbox-gl';
-import { IndoorMap, IndoorControl } from 'map-gl-indoor';
+import { IndoorMap, IndoorControl, addIndoorSupportTo } from 'map-gl-indoor';
 
 const map = new Map({
     accessToken,
     container,
     style: 'mapbox://styles/mapbox/streets-v10'
 });
+addIndoorSupportTo(map);
 
 // Retrieve the geojson from the path and add the map
 fetch('maps/gare-de-l-est.geojson')
@@ -66,9 +67,6 @@ Have a look at the side project [indoor-maps-server](https://github.com/map-gl-i
     npm install & npm start
 
 Then, visit http://localhost:9966/debug/index.html to load the samples
-
-Put your mapbox access token in the web console:
-`window.localStorage.setItem('MapboxAccessToken', '_YOUR_TOKEN_');`
 
 ### With docker-compose
 

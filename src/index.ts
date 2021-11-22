@@ -1,21 +1,20 @@
-import mapboxgl from 'mapbox-gl';
+import MapGLIndoor from './MapGLIndoor';
+import type { MapGLMap } from './types';
 
-import Indoor from './Indoor';
-import IndoorMap from './IndoorMap';
-import MapServerHandler from './MapServerHandler';
-import DefaultStyle from './style';
-
-Object.defineProperty(
-    mapboxgl.Map.prototype,
-    'indoor',
-    {
-        get: function () {
-            if (!this._indoor) {
-                this._indoor = new Indoor(this);
+export function addIndoorSupportTo(map: MapGLMap) {
+    Object.defineProperty(
+        map,
+        'indoor',
+        {
+            get: function () {
+                if (!this._indoor) {
+                    this._indoor = new MapGLIndoor(this);
+                }
+                return this._indoor;
             }
-            return this._indoor;
-        }
-    });
+        });
+}
 
-
-export { IndoorMap, MapServerHandler, DefaultStyle };
+export { default as IndoorMap } from './IndoorMap';
+export { default as MapServerHandler } from './MapServerHandler';
+export { default as DefaultStyle } from './style';

@@ -150,4 +150,6 @@ Temporary Items
 
 # End of https://www.gitignore.io/api/node,visualstudiocode,osx
 
-access_token_generated.js
+debug/js/*
+!debug/js/mapbox_access_token.js
+!debug/js/maptiler_access_token.js

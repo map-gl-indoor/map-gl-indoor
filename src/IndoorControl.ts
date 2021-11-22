@@ -1,8 +1,7 @@
-import Indoor from './Indoor';
+import MapGLIndoor from './MapGLIndoor';
 import IndoorMap from './IndoorMap';
 
-import type { Map } from 'mapbox-gl';
-import type { Level } from './types';
+import type { Level, MapGLMap } from './types';
 
 /**
  * Creates a indoor control with floors buttons
@@ -11,22 +10,22 @@ import type { Level } from './types';
  */
 class IndoorControl {
 
-    _indoor: Indoor;
-    _map: Map;
+    _indoor: MapGLIndoor;
+    _map?: MapGLMap;
     _indoorMap: IndoorMap | null;
 
     _container: HTMLElement | null;
     _levelsButtons: Array<HTMLElement>;
     _selectedButton: HTMLElement | null;
 
-    constructor(indoor: Indoor) {
+    constructor(indoor: MapGLIndoor) {
         this._indoor = indoor;
         this._levelsButtons = [];
         this._container = null;
         this._selectedButton = null;
     }
 
-    onAdd(map: Map) {
+    onAdd(map: MapGLMap) {
         this._map = map;
 
         // Create container
@@ -52,6 +51,9 @@ class IndoorControl {
     }
 
     onRemove() {
+        if (!this._map || !this._container) {
+            return;
+        }
         this._container.remove();
         this._container = null;
         this._map.off('indoor.map.loaded', this._onMapLoaded);
@@ -117,7 +119,9 @@ class IndoorControl {
         a.classList.add("mapboxgl-ctrl-icon");
         container.appendChild(a);
         a.addEventListener('click', () => {
-            this._map.fire('indoor.control.clicked', { level });
+            if (this._map) {
+                this._map.fire('indoor.control.clicked', { level });
+            }
             if (this._indoor.getLevel() === level) return;
             this._indoor.setLevel(level);
         });

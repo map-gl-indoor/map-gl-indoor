@@ -1,5 +1,6 @@
 import IndoorMap from './IndoorMap';
 import IndoorControl from './IndoorControl';
+import LngLatBounds from './LngLatBounds';
 import { overlap, filterWithLevel, distance } from './Utils';
 
 type SavedFilter = {
@@ -7,18 +8,13 @@ type SavedFilter = {
     filter: FilterSpecification
 }
 
-import type { Map } from 'mapbox-gl';
-import type { Level, FilterSpecification, LayerSpecification } from './types';
+import type { Level, FilterSpecification, LayerSpecification, MapGLMap } from './types';
 
 const SOURCE_ID = 'indoor';
 
-/**
- * Manage indoor levels
- * @param {Map} map the Mapbox map
- */
-class Indoor {
+class MapGLIndoor {
 
-    _map: Map;
+    _map: MapGLMap;
     _level: Level | null;
 
     _indoorMaps: Array<IndoorMap>;
@@ -33,7 +29,7 @@ class Indoor {
 
     _updateMapPromise: Promise<void>;
 
-    constructor(map: Map) {
+    constructor(map: MapGLMap) {
         this._map = map;
         this._level = null;
 
@@ -209,7 +205,7 @@ class Indoor {
             return null;
         }
 
-        const cameraBounds = this._map.getBounds();
+        const cameraBounds = LngLatBounds.fromMapGL(this._map.getBounds());
         const mapsInBounds = this._indoorMaps.filter(indoorMap =>
             overlap(indoorMap.bounds, cameraBounds)
         );
@@ -239,5 +235,5 @@ class Indoor {
 
 }
 
-export default Indoor;
+export default MapGLIndoor;
 

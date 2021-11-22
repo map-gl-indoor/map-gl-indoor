@@ -6,10 +6,10 @@
     <title>Display map navigation controls</title>
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
 
-    <script src="/node_modules/mapbox-gl/dist/mapbox-gl.js"></script>
-    <script src='./js/mapbox_access_token.js'></script>
+    <script src="/node_modules/maplibre-gl/dist/maplibre-gl.js"></script>
+    <script src='./js/maptiler_access_token.js'></script>
 
-    <link href="/node_modules/mapbox-gl/dist/mapbox-gl.css" rel="stylesheet" />
+    <link href="/node_modules/maplibre-gl/dist/maplibre-gl.css" rel="stylesheet" />
 
     <style>
         body {
@@ -34,11 +34,11 @@
 
         import { addIndoorSupportTo, IndoorMap } from './js/map-gl-indoor.js'
 
-        const map = window.map = new mapboxgl.Map({
+        const map = window.map = new maplibregl.Map({
             container: "map",
             zoom: 18,
             center: [2.3592843, 48.8767904],
-            style: 'mapbox://styles/mapbox/streets-v10',
+            style: 'https://api.maptiler.com/maps/basic/style.json?key=' + window.maptiler_accessToken,
             hash: true
         });
 

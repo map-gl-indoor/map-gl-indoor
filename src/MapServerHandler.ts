@@ -1,15 +1,9 @@
-import { LngLatBounds } from 'mapbox-gl';
-
 import IndoorMap from './IndoorMap';
+import LngLat from './LngLat';
+import LngLatBounds from './LngLatBounds';
 import { destinationPoint, distance } from './Utils';
 
-import type { Map as MapboxMap } from 'mapbox-gl';
-import type Indoor from './Indoor';
-import type { IndoorMapOptions } from './types';
-
-type Map = MapboxMap & {
-    indoor?: Indoor
-};
+import type { IndoorMapOptions, MapGLMap } from './types';
 
 type RemoteMap = {
     name: string,
@@ -24,22 +18,22 @@ class MapServerHandler {
 
     serverUrl: string;
 
-    map: Map;
+    map: MapGLMap;
     remoteMapsDownloaded: RemoteMap[];
     downloadedBounds: LngLatBounds | null;
 
     loadMapsPromise: Promise<void> = Promise.resolve();
 
-    indoorMapOptions: IndoorMapOptions;
+    indoorMapOptions?: IndoorMapOptions;
 
-    private constructor(serverUrl: string, map: Map, indoorMapOptions? : IndoorMapOptions) {
+    private constructor(serverUrl: string, map: MapGLMap, indoorMapOptions?: IndoorMapOptions) {
         this.serverUrl = serverUrl;
         this.map = map;
         this.indoorMapOptions = indoorMapOptions;
         this.remoteMapsDownloaded = [];
         this.downloadedBounds = null;
 
-        if (map.loaded) {
+        if (map.loaded()) {
             this.loadMapsIfNecessary();
         } else {
             map.on('load', () => this.loadMapsIfNecessary())
@@ -62,13 +56,19 @@ class MapServerHandler {
             }
         }
 
-        const distanceEastWest = distance(viewPort.getNorthEast(), viewPort.getNorthWest());
-        const distanceNorthSouth = distance(viewPort.getNorthEast(), viewPort.getSouthEast());
+        const distanceEastWest = distance(
+            LngLat.convert(viewPort.getNorthEast()),
+            LngLat.convert(viewPort.getNorthWest())
+        );
+        const distanceNorthSouth = distance(
+            LngLat.convert(viewPort.getNorthEast()),
+            LngLat.convert(viewPort.getSouthEast())
+        );
         // It is not necessary to compute others as we are at zoom >= 17, the approximation is enough.
         const maxDistanceOnScreen = Math.max(distanceEastWest, distanceNorthSouth);
         const bestSizeOfAreaToDownload = Math.max(AREA_TO_DOWNLOAD, maxDistanceOnScreen * 2);
 
-        const center = this.map.getCenter();
+        const center = LngLat.convert(this.map.getCenter());
         const dist = bestSizeOfAreaToDownload * Math.sqrt(2);
         const northEast = destinationPoint(center, dist, Math.PI / 4);
         const southWest = destinationPoint(center, dist, - 3 * Math.PI / 4);
@@ -85,14 +85,14 @@ class MapServerHandler {
         const url = this.serverUrl + `/maps-in-bounds/${bounds.getWest()},${bounds.getSouth()},${bounds.getEast()},${bounds.getNorth()}`;
         const maps = await (await fetch(url)).json();
 
-        const mapsToRemove = this.remoteMapsDownloaded.reduce((acc, map) => {
-            if (!maps.find(_map => _map.path === map.path)) {
+        const mapsToRemove = this.remoteMapsDownloaded.reduce((acc: RemoteMap[], map: RemoteMap) => {
+            if (!maps.find((_map: RemoteMap) => _map.path === map.path)) {
                 acc.push(map);
             }
             return acc;
         }, []);
 
-        const mapsToAdd = maps.reduce((acc, map) => {
+        const mapsToAdd = maps.reduce((acc: RemoteMap[], map: RemoteMap) => {
             if (!this.remoteMapsDownloaded.find(_map => _map.path === map.path)) {
                 acc.push(map);
             }
@@ -106,17 +106,20 @@ class MapServerHandler {
     private addCustomMap = async (map: RemoteMap) => {
         const geojson = await (await fetch(this.serverUrl + map.path)).json();
         map.indoorMap = IndoorMap.fromGeojson(geojson, this.indoorMapOptions);
-        this.map.indoor.addMap(map.indoorMap);
+        this.map.indoor?.addMap(map.indoorMap);
         this.remoteMapsDownloaded.push(map);
     };
 
     private removeCustomMap = async (map: RemoteMap) => {
-        this.map.indoor.removeMap(map.indoorMap);
+        if (!map.indoorMap) {
+            return;
+        }
+        this.map.indoor?.removeMap(map.indoorMap);
         this.remoteMapsDownloaded.splice(this.remoteMapsDownloaded.indexOf(map), 1);
     }
 
 
-    static manage(server: string, map: Map, indoorMapOptions?: IndoorMapOptions) {
+    static manage(server: string, map: MapGLMap, indoorMapOptions?: IndoorMapOptions) {
         return new MapServerHandler(server, map, indoorMapOptions);
     }
 

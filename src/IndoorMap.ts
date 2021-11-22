@@ -4,7 +4,7 @@ import GeoJsonHelper from './GeojsonHelper';
 import type { GeoJSON } from 'geojson';
 
 import type { LevelsRange, IndoorMapOptions, LayerSpecification } from './types';
-import type { LngLatBounds } from 'mapbox-gl';
+import type LngLatBounds from './LngLatBounds';
 
 class IndoorMap {
 
@@ -17,19 +17,40 @@ class IndoorMap {
     defaultLevel: number;
     showFeaturesWithEmptyLevel: boolean;
 
+    constructor(bounds: LngLatBounds,
+        geojson: GeoJSON,
+        layers: Array<LayerSpecification>,
+        levelsRange: LevelsRange,
+        layersToHide: Array<string>,
+        defaultLevel: number,
+        showFeaturesWithEmptyLevel: boolean,
+        beforeLayerId?: string
+    ) {
+
+        this.bounds = bounds;
+        this.geojson = geojson;
+        this.layers = layers;
+        this.levelsRange = levelsRange;
+        this.layersToHide = layersToHide;
+        this.defaultLevel = defaultLevel;
+        this.showFeaturesWithEmptyLevel = showFeaturesWithEmptyLevel;
+        this.beforeLayerId = beforeLayerId;
+
+    }
+
     static fromGeojson(geojson: GeoJSON, options: IndoorMapOptions = {}) {
 
         const { bounds, levelsRange } = GeoJsonHelper.extractLevelsRangeAndBounds(geojson);
 
-        const map = new IndoorMap();
-        map.geojson = geojson;
-        map.layers = options.layers ? options.layers : Style.DefaultLayers;
-        map.bounds = bounds;
-        map.levelsRange = levelsRange;
-        map.layersToHide = options.layersToHide ? options.layersToHide : [];
-        map.beforeLayerId = options.beforeLayerId;
-        map.defaultLevel = options.defaultLevel ? options.defaultLevel : 0;
-        map.showFeaturesWithEmptyLevel = options.showFeaturesWithEmptyLevel ? options.showFeaturesWithEmptyLevel : false;
+        const map = new IndoorMap(
+            bounds,
+            geojson,
+            options.layers ? options.layers : Style.DefaultLayers,
+            levelsRange,
+            options.layersToHide ? options.layersToHide : [],
+            options.defaultLevel ? options.defaultLevel : 0,
+            options.showFeaturesWithEmptyLevel ? options.showFeaturesWithEmptyLevel : false,
+            options.beforeLayerId);
 
         return map;
     }

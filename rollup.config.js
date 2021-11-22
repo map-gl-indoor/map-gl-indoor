@@ -15,7 +15,8 @@ const outputUmd = {
     format: 'umd',
     name: 'mapgl_indoor',
     globals: {
-        'mapbox-gl': 'mapboxgl'
+        'mapbox-gl': 'mapboxgl',
+        'maplibre-gl': 'maplibregl'
     }
 };
 
@@ -26,7 +27,7 @@ const outputUmdMinified = Object.assign({}, outputUmd, {
 });
 
 
-export default [
+const prod = [
 
     /**
      * For CDN and debug
@@ -45,7 +46,8 @@ export default [
             sourcemaps()
         ],
         external: [
-            'mapbox-gl'
+            'mapbox-gl',
+            'maplibre-gl'
         ]
     },
 
@@ -78,3 +80,25 @@ export default [
         ]
     }
 ];
+
+
+const dev = [
+    {
+        input,
+        output: [
+            {
+                sourcemap: true,
+                file: 'debug/js/map-gl-indoor.js',
+                format: 'es'
+            }
+        ],
+        plugins: [
+            json(),
+            typescript(),
+            resolve({ browser: true, jsnext: true }),
+            sourcemaps()
+        ]
+    }
+];
+
+export default (cli) => cli.dev ? dev : prod;

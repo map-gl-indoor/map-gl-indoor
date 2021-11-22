@@ -1,5 +1,5 @@
-import { LngLat, LngLatBounds } from 'mapbox-gl';
-
+import LngLat from './LngLat';
+import LngLatBounds from './LngLatBounds';
 import type { FilterSpecification, Level } from './types';
 
 export const EarthRadius = 6371008.8;
@@ -95,7 +95,7 @@ export function filterWithLevel(initialFilter: FilterSpecification, level: Level
 }
 
 
-export function destinationPoint(start: LngLat, distance: number, bearing: number) : LngLat {
+export function destinationPoint(start: LngLat, distance: number, bearing: number): LngLat {
     const dR = distance / EarthRadius;
     const cosDr = Math.cos(dR);
     const sinDr = Math.sin(dR);
@@ -103,7 +103,7 @@ export function destinationPoint(start: LngLat, distance: number, bearing: numbe
     const phi1 = start.lat / 180 * Math.PI;
     const lambda1 = start.lng / 180 * Math.PI;
 
-    const phi2 = Math.asin( Math.sin(phi1) * cosDr
+    const phi2 = Math.asin(Math.sin(phi1) * cosDr
         + Math.cos(phi1) * sinDr * Math.cos(bearing)
     );
     const lambda2 = lambda1 + Math.atan2(
@@ -114,7 +114,7 @@ export function destinationPoint(start: LngLat, distance: number, bearing: numbe
     return new LngLat(lambda2 * 180 / Math.PI, phi2 * 180 / Math.PI);
 }
 
-export function distance(point1: LngLat, point2: LngLat) : number {
+export function distance(point1: LngLat, point2: LngLat): number {
 
     const lat1 = point1.lat / 180 * Math.PI;
     const lng1 = point1.lng / 180 * Math.PI;
