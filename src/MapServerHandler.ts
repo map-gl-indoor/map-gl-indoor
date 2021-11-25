@@ -4,11 +4,11 @@ import IndoorMap from './IndoorMap';
 import { destinationPoint, distance } from './Utils';
 
 import type { Map as MapboxMap } from 'mapbox-gl';
-import type Indoor from './Indoor';
+import type IndoorLayer from './IndoorLayer';
 import type { IndoorMapOptions } from './types';
 
 type Map = MapboxMap & {
-    indoor?: Indoor
+    indoor?: IndoorLayer
 };
 
 type RemoteMap = {

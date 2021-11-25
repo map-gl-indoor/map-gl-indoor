@@ -16,7 +16,7 @@ const SOURCE_ID = 'indoor';
  * Manage indoor levels
  * @param {Map} map the Mapbox map
  */
-class Indoor {
+class IndoorLayer {
 
     _map: Map;
     _level: Level | null;
@@ -239,5 +239,4 @@ class Indoor {
 
 }
 
-export default Indoor;
-
+export default IndoorLayer;

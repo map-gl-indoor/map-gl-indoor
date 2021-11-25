@@ -1,4 +1,4 @@
-import Indoor from './Indoor';
+import IndoorLayer from './IndoorLayer';
 import IndoorMap from './IndoorMap';
 
 import type { Map } from 'mapbox-gl';
@@ -11,7 +11,7 @@ import type { Level } from './types';
  */
 class IndoorControl {
 
-    _indoor: Indoor;
+    _indoor: IndoorLayer;
     _map: Map;
     _indoorMap: IndoorMap | null;
 
@@ -19,7 +19,7 @@ class IndoorControl {
     _levelsButtons: Array<HTMLElement>;
     _selectedButton: HTMLElement | null;
 
-    constructor(indoor: Indoor) {
+    constructor(indoor: IndoorLayer) {
         this._indoor = indoor;
         this._levelsButtons = [];
         this._container = null;

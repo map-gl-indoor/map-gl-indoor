@@ -1,6 +1,6 @@
 import mapboxgl from 'mapbox-gl';
 
-import Indoor from './Indoor';
+import IndoorLayer from './IndoorLayer';
 import IndoorMap from './IndoorMap';
 import MapServerHandler from './MapServerHandler';
 import DefaultStyle from './style';
@@ -11,7 +11,7 @@ Object.defineProperty(
     {
         get: function () {
             if (!this._indoor) {
-                this._indoor = new Indoor(this);
+                this._indoor = new IndoorLayer(this);
             }
             return this._indoor;
         }
