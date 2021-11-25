@@ -1,8 +1,8 @@
 import { LngLatBounds } from 'mapbox-gl';
 import bbox from '@turf/bbox';
 
-import type { Feature, GeoJSON } from 'geojson';
-import type { LevelsRange } from './Types';
+import type { Feature } from 'geojson';
+import type { LevelsRange, IndoorMapGeoJSON } from './Types';
 
 /**
  * Helper for Geojson data
@@ -44,10 +44,11 @@ class GeoJsonHelper {
     /**
      * Extract levels range and bounds from geojson
      *
-     * @param {GeoJSON} geojson the geojson
+     * @param {IndoorMapGeoJSON} geojson the geojson
      * @returns {Object} the levels range and bounds.
      */
-    static extractLevelsRangeAndBounds(geojson: GeoJSON): ({ levelsRange: LevelsRange, bounds: LngLatBounds }) {
+    static extractLevelsRangeAndBounds(geojson: IndoorMapGeoJSON)
+        : ({ levelsRange: LevelsRange, bounds: LngLatBounds }) {
 
         let minLevel = Infinity;
         let maxLevel = -Infinity;
@@ -71,8 +72,6 @@ class GeoJsonHelper {
 
         if (geojson.type === 'FeatureCollection') {
             geojson.features.forEach(parseFeature);
-        } else if (geojson.type === 'Feature') {
-            parseFeature(geojson);
         }
 
         if (minLevel === Infinity || maxLevel === -Infinity) {

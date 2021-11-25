@@ -1,14 +1,13 @@
 import Style from './style';
 import GeoJsonHelper from './GeojsonHelper';
 
-import type { GeoJSON } from 'geojson';
 
-import type { LevelsRange, IndoorMapOptions, LayerSpecification } from './Types';
+import type { LevelsRange, IndoorMapGeoJSON, IndoorMapOptions, LayerSpecification } from './Types';
 import type { LngLatBounds } from 'mapbox-gl';
 
 class IndoorMap {
     bounds: LngLatBounds;
-    geojson: any;
+    geojson: IndoorMapGeoJSON;
     layers: Array<LayerSpecification>;
     levelsRange: LevelsRange;
     beforeLayerId?: string;
@@ -17,7 +16,7 @@ class IndoorMap {
     showFeaturesWithEmptyLevel: boolean;
 
     constructor(bounds: LngLatBounds,
-        geojson: GeoJSON,
+        geojson: IndoorMapGeoJSON,
         layers: Array<LayerSpecification>,
         levelsRange: LevelsRange,
         layersToHide: Array<string>,
@@ -37,13 +36,14 @@ class IndoorMap {
 
     }
 
-    static fromGeojson(geojson: GeoJSON, options: IndoorMapOptions = {}) {
+    static fromGeojson(geojson: IndoorMapGeoJSON, options: IndoorMapOptions = {}) {
 
         const { bounds, levelsRange } = GeoJsonHelper.extractLevelsRangeAndBounds(geojson);
 
+        const notTypedGeojson: any = geojson;
         const map = new IndoorMap(
             bounds,
-            geojson,
+            notTypedGeojson,
             options.layers ? options.layers : Style.DefaultLayers,
             levelsRange,
             options.layersToHide ? options.layersToHide : [],

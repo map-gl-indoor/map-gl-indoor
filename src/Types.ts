@@ -1,3 +1,4 @@
+import type { FeatureCollection, Geometry } from 'geojson';
 import type { Map as MapboxMap } from 'mapbox-gl';
 import type IndoorLayer from './IndoorLayer';
 
@@ -15,6 +16,8 @@ export type IndoorMapOptions = {
     layersToHide?: Array<string>,
     showFeaturesWithEmptyLevel?: boolean
 }
+
+export type IndoorMapGeoJSON = FeatureCollection<Geometry>;
 
 // The two following types should come from mapboxgl-style-spec
 export type LayerSpecification = any;
