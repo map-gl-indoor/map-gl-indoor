@@ -26,7 +26,7 @@ class MapServerHandler {
 
     loadMapsPromise: Promise<void> = Promise.resolve();
 
-    indoorMapOptions: IndoorMapOptions;
+    indoorMapOptions?: IndoorMapOptions;
 
     private constructor(serverUrl: string, map: EnhancedMapboxMap, indoorMapOptions?: IndoorMapOptions) {
         this.serverUrl = serverUrl;
@@ -35,7 +35,7 @@ class MapServerHandler {
         this.remoteMapsDownloaded = [];
         this.downloadedBounds = null;
 
-        if (map.loaded) {
+        if (map.loaded()) {
             this.loadMapsIfNecessary();
         } else {
             map.on('load', () => this.loadMapsIfNecessary())
@@ -79,16 +79,16 @@ class MapServerHandler {
 
     private loadMapsInBounds = async (bounds: LngLatBounds) => {
         const url = this.serverUrl + `/maps-in-bounds/${bounds.getWest()},${bounds.getSouth()},${bounds.getEast()},${bounds.getNorth()}`;
-        const maps = await (await fetch(url)).json();
+        const maps: RemoteMap[] = await (await fetch(url)).json();
 
-        const mapsToRemove = this.remoteMapsDownloaded.reduce((acc, map) => {
+        const mapsToRemove = this.remoteMapsDownloaded.reduce((acc: RemoteMap[], map) => {
             if (!maps.find(_map => _map.path === map.path)) {
                 acc.push(map);
             }
             return acc;
         }, []);
 
-        const mapsToAdd = maps.reduce((acc, map) => {
+        const mapsToAdd = maps.reduce((acc: RemoteMap[], map) => {
             if (!this.remoteMapsDownloaded.find(_map => _map.path === map.path)) {
                 acc.push(map);
             }
@@ -107,7 +107,7 @@ class MapServerHandler {
     };
 
     private removeCustomMap = async (map: RemoteMap) => {
-        this.map.indoor.removeMap(map.indoorMap);
+        this.map.indoor.removeMap(map.indoorMap!);
         this.remoteMapsDownloaded.splice(this.remoteMapsDownloaded.indexOf(map), 1);
     }
 

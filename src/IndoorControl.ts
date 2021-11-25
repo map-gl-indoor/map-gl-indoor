@@ -12,29 +12,29 @@ import type { Level } from './Types';
 class IndoorControl {
 
     _indoor: IndoorLayer;
-    _map: Map;
+    _map?: Map;
     _indoorMap: IndoorMap | null;
 
-    _container: HTMLElement | null;
+    _container?: HTMLElement;
     _levelsButtons: Array<HTMLElement>;
     _selectedButton: HTMLElement | null;
 
     constructor(indoor: IndoorLayer) {
         this._indoor = indoor;
         this._levelsButtons = [];
-        this._container = null;
         this._selectedButton = null;
+        this._indoorMap = null;
     }
 
     onAdd(map: Map) {
         this._map = map;
 
         // Create container
-        this._container = document.createElement("div");
-        this._container.classList.add("mapboxgl-ctrl");
-        this._container.classList.add("mapboxgl-ctrl-group");
-        this._container.style.display = 'none';
-        this._container.addEventListener('contextmenu', this._onContextMenu);
+        const container = this._container = document.createElement("div");
+        container.classList.add("mapboxgl-ctrl");
+        container.classList.add("mapboxgl-ctrl-group");
+        container.style.display = 'none';
+        container.addEventListener('contextmenu', this._onContextMenu);
 
         // If indoor layer is already loaded, update levels
         this._indoorMap = this._indoor.getSelectedMap();
@@ -44,19 +44,21 @@ class IndoorControl {
         }
 
         // Register to indoor events
-        this._map.on('indoor.map.loaded', this._onMapLoaded);
-        this._map.on('indoor.map.unloaded', this._onMapUnLoaded);
-        this._map.on('indoor.level.changed', this._onLevelChanged);
+        map.on('indoor.map.loaded', this._onMapLoaded);
+        map.on('indoor.map.unloaded', this._onMapUnLoaded);
+        map.on('indoor.level.changed', this._onLevelChanged);
 
-        return this._container;
+        return container;
     }
 
     onRemove() {
-        this._container.remove();
-        this._container = null;
-        this._map.off('indoor.map.loaded', this._onMapLoaded);
-        this._map.off('indoor.map.unloaded', this._onMapUnLoaded);
-        this._map.off('indoor.level.changed', this._onLevelChanged);
+        this._container?.remove();
+        delete this._container;
+
+        this._map?.off('indoor.map.loaded', this._onMapLoaded);
+        this._map?.off('indoor.map.unloaded', this._onMapUnLoaded);
+        this._map?.off('indoor.level.changed', this._onLevelChanged);
+        delete this._map;
     }
 
     _onMapLoaded = ({ indoorMap }: { indoorMap: IndoorMap }): void => {
@@ -74,7 +76,7 @@ class IndoorControl {
 
     _updateNavigationBar() {
 
-        if (this._container === null) {
+        if (!this._container) {
             return;
         }
 
@@ -117,7 +119,7 @@ class IndoorControl {
         a.classList.add("mapboxgl-ctrl-icon");
         container.appendChild(a);
         a.addEventListener('click', () => {
-            this._map.fire('indoor.control.clicked', { level });
+            this._map?.fire('indoor.control.clicked', { level });
             if (this._indoor.getLevel() === level) return;
             this._indoor.setLevel(level);
         });

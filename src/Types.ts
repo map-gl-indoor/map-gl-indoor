@@ -21,5 +21,5 @@ export type LayerSpecification = any;
 export type FilterSpecification = any[] | null;
 
 export type EnhancedMapboxMap = MapboxMap & {
-    indoor?: IndoorLayer
+    indoor: IndoorLayer
 };
