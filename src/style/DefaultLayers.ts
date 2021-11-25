@@ -1,6 +1,6 @@
 import defaultLayers from './default_layers.json';
 
-import type { LayerSpecification } from '../types';
+import type { LayerSpecification } from '../Types';
 
 let layers: Array<LayerSpecification> = defaultLayers;
 

@@ -3,7 +3,7 @@ import GeoJsonHelper from './GeojsonHelper';
 
 import type { GeoJSON } from 'geojson';
 
-import type { LevelsRange, IndoorMapOptions, LayerSpecification } from './types';
+import type { LevelsRange, IndoorMapOptions, LayerSpecification } from './Types';
 import type { LngLatBounds } from 'mapbox-gl';
 
 class IndoorMap {

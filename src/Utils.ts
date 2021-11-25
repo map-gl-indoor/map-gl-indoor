@@ -1,6 +1,6 @@
 import { LngLat, LngLatBounds } from 'mapbox-gl';
 
-import type { FilterSpecification, Level } from './types';
+import type { FilterSpecification, Level } from './Types';
 
 export const EarthRadius = 6371008.8;
 

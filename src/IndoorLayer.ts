@@ -8,7 +8,7 @@ type SavedFilter = {
 }
 
 import type { Map } from 'mapbox-gl';
-import type { Level, FilterSpecification, LayerSpecification } from './types';
+import type { Level, FilterSpecification, LayerSpecification } from './Types';
 
 const SOURCE_ID = 'indoor';
 

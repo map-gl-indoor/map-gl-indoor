@@ -5,7 +5,7 @@ import { destinationPoint, distance } from './Utils';
 
 import type { Map as MapboxMap } from 'mapbox-gl';
 import type IndoorLayer from './IndoorLayer';
-import type { IndoorMapOptions } from './types';
+import type { IndoorMapOptions } from './Types';
 
 type Map = MapboxMap & {
     indoor?: IndoorLayer

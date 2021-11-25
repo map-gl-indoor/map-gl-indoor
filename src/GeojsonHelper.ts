@@ -2,7 +2,7 @@ import { LngLatBounds } from 'mapbox-gl';
 import bbox from '@turf/bbox';
 
 import type { Feature, GeoJSON } from 'geojson';
-import type { LevelsRange } from './types';
+import type { LevelsRange } from './Types';
 
 /**
  * Helper for Geojson data

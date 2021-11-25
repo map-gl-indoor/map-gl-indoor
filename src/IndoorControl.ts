@@ -2,7 +2,7 @@ import IndoorLayer from './IndoorLayer';
 import IndoorMap from './IndoorMap';
 
 import type { Map } from 'mapbox-gl';
-import type { Level } from './types';
+import type { Level } from './Types';
 
 /**
  * Creates a indoor control with floors buttons
