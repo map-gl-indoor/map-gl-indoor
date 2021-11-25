@@ -1,15 +1,18 @@
 {
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "lib": [
-      "ESNext",
-      "DOM"
-    ],
+    "target": "ESNext",
+    "useDefineForClassFields": true,
     "module": "ESNext",
+    "lib": ["ESNext", "DOM"],
     "moduleResolution": "Node",
+    "strict": true,
+    "sourceMap": true,
     "resolveJsonModule": true,
-    "rootDir": "./src",
-    "strictPropertyInitialization": false,
-    "target": "ESNext"
-  }
+    "esModuleInterop": true,
+    "noEmit": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true
+  },
+  "include": ["./src"]
 }

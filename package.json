@@ -9,12 +9,10 @@
   ],
   "private": false,
   "scripts": {
-    "build": "rollup -c",
-    "build-token": "node build/generate-access-token-script.js",
-    "lint": "eslint --ext .js,.ts src",
-    "start-server": "st --no-cache -H 0.0.0.0 --port 9966 .",
-    "start": "NODE_ENV=debug run-p build-token watch start-server",
-    "watch": "rollup -c --watch"
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "serve": "vite preview",
+    "lint": "eslint --ext .js,.ts src"
   },
   "repository": {
     "type": "git",
@@ -37,23 +35,18 @@
     "mapbox-gl": ">1.10.0"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^15.1.0",
-    "@rollup/plugin-json": "^4.1.0",
-    "@rollup/plugin-node-resolve": "^9.0.0",
-    "@rollup/plugin-typescript": "^6.0.0",
+    "@mapbox/mapbox-gl-geocoder": "^4.7.4",
+    "@turf/centroid": "^6.5.0",
     "@types/geojson": "^7946.0.7",
     "@types/mapbox-gl": "^1.9.1",
     "@typescript-eslint/eslint-plugin": "^4.3.0",
     "@typescript-eslint/parser": "^4.3.0",
     "eslint": "^6.8.0",
+    "events": "^3.3.0",
     "mapbox-gl": "^1.10.0",
-    "npm-run-all": "^4.1.5",
     "osmtogeojson": "^3.0.0-beta.4",
-    "rollup": "^2.28.2",
-    "rollup-plugin-sourcemaps": "^0.6.3",
-    "rollup-plugin-terser": "^7.0.2",
-    "st": "^2.0.0",
-    "typescript": "^4.0.3"
+    "typescript": "^4.3.2",
+    "vite": "^2.6.14"
   },
   "dependencies": {
     "@turf/bbox": "^6.0.1"

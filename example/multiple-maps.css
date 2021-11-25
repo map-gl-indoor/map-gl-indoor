@@ -1,0 +1,15 @@
+#map {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+#menu {
+    position: absolute;
+    background: #ffffffaa;
+}
+
+#menu>button {
+    display: block;
+    margin: 10px;
+}
