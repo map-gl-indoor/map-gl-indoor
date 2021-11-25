@@ -6,11 +6,9 @@ import { MapServerHandler } from '../src/index';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import './style.css';
 
-import type { EnhancedMapboxMap } from '../src/index';
-
 const app = document.querySelector<HTMLDivElement>('#app')!
 
-const map: EnhancedMapboxMap = new MapboxMap({
+const map = new MapboxMap({
     container: app,
     zoom: 18,
     center: [2.3592843, 48.8767904],
@@ -32,4 +30,4 @@ const indoorMapsOptions = {
 MapServerHandler.manage(SERVER_URL, map, indoorMapsOptions);
 
 // Add the specific control
-map.addControl(map.indoor.control);
+// map.addControl(map.indoor.control);

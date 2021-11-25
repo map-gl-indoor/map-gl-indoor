@@ -12,7 +12,8 @@
     "noEmit": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noImplicitReturns": true
+    "noImplicitReturns": true,
+    "rootDir": "."
   },
-  "include": ["./src"]
+  "include": ["./src", "./example"],
 }
