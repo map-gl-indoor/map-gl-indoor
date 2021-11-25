@@ -46,6 +46,8 @@
          * Indoor specific
          */
 
+        mapgl_indoor.addIndoorTo(map);
+
         // Retrieve the geojson from the osm path
         fetch('maps/caserne.osm')
             .then(response => response.text())

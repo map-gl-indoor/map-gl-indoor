@@ -1,15 +1,11 @@
 import { LngLatBounds } from 'mapbox-gl';
 
+import addIndoorTo from './addIndoorTo';
 import IndoorMap from './IndoorMap';
 import { destinationPoint, distance } from './Utils';
 
+import type { EnhancedMapboxMap, IndoorMapOptions } from './Types';
 import type { Map as MapboxMap } from 'mapbox-gl';
-import type IndoorLayer from './IndoorLayer';
-import type { IndoorMapOptions } from './Types';
-
-type Map = MapboxMap & {
-    indoor?: IndoorLayer
-};
 
 type RemoteMap = {
     name: string,
@@ -24,7 +20,7 @@ class MapServerHandler {
 
     serverUrl: string;
 
-    map: Map;
+    map: EnhancedMapboxMap;
     remoteMapsDownloaded: RemoteMap[];
     downloadedBounds: LngLatBounds | null;
 
@@ -32,7 +28,7 @@ class MapServerHandler {
 
     indoorMapOptions: IndoorMapOptions;
 
-    private constructor(serverUrl: string, map: Map, indoorMapOptions? : IndoorMapOptions) {
+    private constructor(serverUrl: string, map: EnhancedMapboxMap, indoorMapOptions?: IndoorMapOptions) {
         this.serverUrl = serverUrl;
         this.map = map;
         this.indoorMapOptions = indoorMapOptions;
@@ -116,8 +112,8 @@ class MapServerHandler {
     }
 
 
-    static manage(server: string, map: Map, indoorMapOptions?: IndoorMapOptions) {
-        return new MapServerHandler(server, map, indoorMapOptions);
+    static manage(server: string, map: MapboxMap, indoorMapOptions?: IndoorMapOptions) {
+        return new MapServerHandler(server, addIndoorTo(map), indoorMapOptions);
     }
 
 }
