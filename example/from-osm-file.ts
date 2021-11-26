@@ -1,5 +1,5 @@
 import { Map as MapboxMap } from 'mapbox-gl';
-import osmtogeojson from 'osmtogeojson';
+import osmtogeojson from '@map-gl-indoor/osmtogeojson';
 
 import accessToken from './mapbox-access-token';
 import { addIndoorTo, IndoorMap } from '../src/index';
