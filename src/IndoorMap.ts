@@ -40,10 +40,9 @@ class IndoorMap {
 
         const { bounds, levelsRange } = GeoJsonHelper.extractLevelsRangeAndBounds(geojson);
 
-        const notTypedGeojson: any = geojson;
         const map = new IndoorMap(
             bounds,
-            notTypedGeojson,
+            geojson,
             options.layers ? options.layers : Style.DefaultLayers,
             levelsRange,
             options.layersToHide ? options.layersToHide : [],

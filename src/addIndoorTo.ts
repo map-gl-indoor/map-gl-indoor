@@ -16,7 +16,5 @@ export default function addIndoorTo(map: MapboxMap): EnhancedMapboxMap {
             }
         });
 
-    // Workaround to let TS accept return type
-    const nonTypedMap: any = map;
-    return nonTypedMap;
+    return map as EnhancedMapboxMap;
 }
