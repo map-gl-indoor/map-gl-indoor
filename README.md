@@ -23,13 +23,16 @@ Then use the following code:
 
 ```js
 import { Map } from 'mapbox-gl';
-import { IndoorMap, IndoorControl } from 'map-gl-indoor';
+import { addIndoorTo, IndoorMap } from 'map-gl-indoor';
 
 const map = new Map({
     accessToken,
     container,
     style: 'mapbox://styles/mapbox/streets-v10'
 });
+
+// Create the indoor logic behind the map.indoor property
+addIndoorTo(map);
 
 // Retrieve the geojson from the path and add the map
 fetch('maps/gare-de-l-est.geojson')
@@ -63,13 +66,6 @@ Have a look at the side project [indoor-maps-server](https://github.com/map-gl-i
 
 ## Developing
 
-    npm install & npm start
+    npm install & npm run dev
 
-Then, visit http://localhost:9966/debug/index.html to load the samples
-
-Put your mapbox access token in the web console:
-`window.localStorage.setItem('MapboxAccessToken', '_YOUR_TOKEN_');`
-
-### With docker-compose
-
-Install and start: `docker-compose up --build`
+Then, visit http://localhost:3000/example to load the samples
