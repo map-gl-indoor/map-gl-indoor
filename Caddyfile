@@ -1,6 +1,0 @@
-:80 {
-    gzip
-    tls off
-    root /mapb-gl-indoor/
-    browse /
-}
