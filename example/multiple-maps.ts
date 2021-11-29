@@ -1,7 +1,7 @@
 import { LngLatLike, Map as MapboxMap } from 'mapbox-gl';
 
 import accessToken from './mapbox-access-token';
-import { addIndoorTo, IndoorMap } from '../src/index';
+import { addIndoorTo, IndoorMap, MapboxMapWithIndoor } from '../src/index';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 import './style.css';
@@ -20,7 +20,7 @@ const map = new MapboxMap({
     style: 'mapbox://styles/mapbox/streets-v10',
     accessToken,
     hash: true
-});
+}) as MapboxMapWithIndoor;
 
 const menuContainer = document.createElement('div');
 menuContainer.id = 'menu';
@@ -38,7 +38,7 @@ function createMenuButton(mapPath: string, center: LngLatLike) {
  * Indoor specific
  */
 
-const enhancedMapboxMap = addIndoorTo(map);
+addIndoorTo(map);
 
 // Create custom maps
 // Note: center is just used to switch between the three maps using map.flyTo() in the menu.
@@ -66,9 +66,9 @@ geojsonMaps.forEach(async ({ path, defaultLevel }) => {
     const indoorMap = IndoorMap.fromGeojson(geojson, { beforeLayerId, layersToHide, defaultLevel });
 
     // Add map to the indoor handler
-    enhancedMapboxMap.indoor.addMap(indoorMap);
+    map.indoor.addMap(indoorMap);
 });
 
 // Add the specific control
-map.addControl(enhancedMapboxMap.indoor.control);
+map.addControl(map.indoor.control);
 

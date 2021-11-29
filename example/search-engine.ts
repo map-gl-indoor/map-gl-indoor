@@ -3,7 +3,7 @@ import MapboxGeocoder, { Result } from '@mapbox/mapbox-gl-geocoder';
 import centroid from '@turf/centroid';
 
 import accessToken from './mapbox-access-token';
-import { addIndoorTo, IndoorMap } from '../src/index';
+import { addIndoorTo, IndoorMap, MapboxMapWithIndoor } from '../src/index';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
@@ -18,13 +18,13 @@ const map = new MapboxMap({
     style: 'mapbox://styles/mapbox/streets-v10',
     accessToken,
     hash: true
-});
+}) as MapboxMapWithIndoor;
 
 /**
  * Indoor specific
  */
 
-const enhancedMapboxMap = addIndoorTo(map);
+addIndoorTo(map);
 
 let customData: any;
 
@@ -32,7 +32,7 @@ let customData: any;
 fetch('maps/gare-de-l-est.geojson')
     .then(res => res.json())
     .then(geojson => {
-        enhancedMapboxMap.indoor.addMap(IndoorMap.fromGeojson(geojson));
+        map.indoor.addMap(IndoorMap.fromGeojson(geojson));
         customData = geojson;
     });
 
@@ -63,10 +63,10 @@ const customGeocoder = new MapboxGeocoder({
 });
 customGeocoder.on('result', (geocoder: any) => {
     if (geocoder.result.properties && geocoder.result.properties.level) {
-        enhancedMapboxMap.indoor.setLevel(parseInt(geocoder.result.properties.level));
+        map.indoor.setLevel(parseInt(geocoder.result.properties.level));
     }
 });
 map.addControl(customGeocoder, 'top-left');
 
 // Add the specific control
-map.addControl(enhancedMapboxMap.indoor.control);
+map.addControl(map.indoor.control);

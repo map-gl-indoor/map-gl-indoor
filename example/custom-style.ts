@@ -1,7 +1,7 @@
 import { Map as MapboxMap } from 'mapbox-gl';
 
 import accessToken from './mapbox-access-token';
-import { addIndoorTo, IndoorMap } from '../src/index';
+import { addIndoorTo, IndoorMap, MapboxMapWithIndoor } from '../src/index';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 import './style.css';
@@ -15,13 +15,13 @@ const map = new MapboxMap({
     style: 'mapbox://styles/mapbox/streets-v10',
     accessToken,
     hash: true
-});
+}) as MapboxMapWithIndoor;
 
 /**
  * Indoor specific
  */
 
-const enhancedMapboxMap = addIndoorTo(map);
+addIndoorTo(map);
 
 const layers = [
     {
@@ -59,8 +59,8 @@ const layers = [
 fetch('maps/gare-de-l-est.geojson')
     .then(res => res.json())
     .then(geojson => {
-        enhancedMapboxMap.indoor.addMap(IndoorMap.fromGeojson(geojson, { layers }));
+        map.indoor.addMap(IndoorMap.fromGeojson(geojson, { layers }));
     });
 
 // Add the specific control
-map.addControl(enhancedMapboxMap.indoor.control);
+map.addControl(map.indoor.control);

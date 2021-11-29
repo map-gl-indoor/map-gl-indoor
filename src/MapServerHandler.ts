@@ -4,7 +4,7 @@ import addIndoorTo from './addIndoorTo';
 import IndoorMap from './IndoorMap';
 import { destinationPoint, distance } from './Utils';
 
-import type { EnhancedMapboxMap, IndoorMapOptions } from './Types';
+import type { MapboxMapWithIndoor, IndoorMapOptions } from './Types';
 import type { Map as MapboxMap } from 'mapbox-gl';
 
 type RemoteMap = {
@@ -20,7 +20,7 @@ class MapServerHandler {
 
     serverUrl: string;
 
-    map: EnhancedMapboxMap;
+    map: MapboxMapWithIndoor;
     remoteMapsDownloaded: RemoteMap[];
     downloadedBounds: LngLatBounds | null;
 
@@ -28,7 +28,7 @@ class MapServerHandler {
 
     indoorMapOptions?: IndoorMapOptions;
 
-    private constructor(serverUrl: string, map: EnhancedMapboxMap, indoorMapOptions?: IndoorMapOptions) {
+    private constructor(serverUrl: string, map: MapboxMapWithIndoor, indoorMapOptions?: IndoorMapOptions) {
         this.serverUrl = serverUrl;
         this.map = map;
         this.indoorMapOptions = indoorMapOptions;

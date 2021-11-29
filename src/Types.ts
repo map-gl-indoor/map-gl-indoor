@@ -23,6 +23,6 @@ export type IndoorMapGeoJSON = FeatureCollection<Geometry>;
 export type LayerSpecification = any;
 export type FilterSpecification = any[] | null;
 
-export type EnhancedMapboxMap = MapboxMap & {
+export type MapboxMapWithIndoor = MapboxMap & {
     indoor: IndoorLayer
 };
