@@ -1,7 +1,7 @@
 {
   "name": "map-gl-indoor",
   "description": "Visualize multi-level buildings",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "main": "dist/map-gl-indoor.umd.js",
   "module": "dist/map-gl-indoor.es.js",
   "types": "dist/src/index.d.ts",
