@@ -26,23 +26,18 @@ const map = new MapboxMap({
 
 addIndoorTo(map);
 
-let customData: any;
 
 // Retrieve the geojson from the path and add the map
-fetch('maps/gare-de-l-est.geojson')
-    .then(res => res.json())
-    .then(geojson => {
-        map.indoor.addMap(IndoorMap.fromGeojson(geojson));
-        customData = geojson;
-    });
+const geojson = await (await fetch('maps/gare-de-l-est.geojson')).json();
+map.indoor.addMap(IndoorMap.fromGeojson(geojson));
 
 // Add search controls to the map.
 const customGeocoder = new MapboxGeocoder({
     localGeocoderOnly: true,
     localGeocoder: (query: string): Result[] => {
         const matchingFeatures = [];
-        for (let i = 0; i < customData.features.length; i++) {
-            const feature = customData.features[i];
+        for (let i = 0; i < geojson.features.length; i++) {
+            const feature = geojson.features[i];
             if (feature.properties.name
                 && feature.properties.name
                     .toLowerCase()

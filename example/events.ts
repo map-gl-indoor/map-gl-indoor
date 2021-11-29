@@ -24,11 +24,8 @@ const map = new MapboxMap({
 addIndoorTo(map);
 
 // Retrieve the geojson from the path and add the map
-fetch('maps/gare-de-l-est.geojson')
-    .then(res => res.json())
-    .then(geojson => {
-        map.indoor.addMap(IndoorMap.fromGeojson(geojson));
-    });
+const geojson = await (await fetch('maps/gare-de-l-est.geojson')).json();
+map.indoor.addMap(IndoorMap.fromGeojson(geojson));
 
 // Add the specific control
 map.addControl(new IndoorControl());

@@ -25,13 +25,10 @@ const map = new MapboxMap({
 addIndoorTo(map);
 
 // Retrieve the geojson from the osm path
-fetch('maps/caserne.osm')
-    .then(response => response.text())
-    .then(osmString => (new window.DOMParser()).parseFromString(osmString, "text/xml"))
-    .then(osmXml => osmtogeojson(osmXml))
-    .then((geojson: any) => {
-        map.indoor.addMap(IndoorMap.fromGeojson(geojson));
-    });
+const osmString = await (await fetch('maps/caserne.osm')).text();
+const osmXml = (new window.DOMParser()).parseFromString(osmString, "text/xml");
+const geojson = osmtogeojson(osmXml);
+map.indoor.addMap(IndoorMap.fromGeojson(geojson));
 
 // Add the specific control
 map.addControl(new IndoorControl());
