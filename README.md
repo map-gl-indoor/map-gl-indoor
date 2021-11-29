@@ -2,6 +2,8 @@
 
 A [mapboxgl-js](https://github.com/mapbox/mapbox-gl-js) plugin to enable multi-floors maps
 
+The project should works with [maplibre-gl-js](https://github.com/maplibre/maplibre-gl-js) too.
+
 __Note:__ This is a work in progress and we welcome contributions.
 
 
