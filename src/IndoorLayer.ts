@@ -26,7 +26,7 @@ class IndoorLayer {
     _previousSelectedLevel: Level | null;
 
     _savedFilters: Array<SavedFilter>;
-    _mapLoaded: boolean;
+    _mapLoadedPromise: Promise<void>;
 
     _updateMapPromise: Promise<void>;
 
@@ -39,16 +39,12 @@ class IndoorLayer {
         this._selectedMap = null;
         this._previousSelectedMap = null;
         this._previousSelectedLevel = null;
-        this._mapLoaded = false;
         this._updateMapPromise = Promise.resolve();
 
         if (this._map.loaded()) {
-            this._mapLoaded = true;
+            this._mapLoadedPromise = Promise.resolve();
         } else {
-            this._map.on('load', () => {
-                this._mapLoaded = true;
-                this._updateSelectedMapIfNeeded();
-            });
+            this._mapLoadedPromise = new Promise(resolve => this._map.on('load', resolve));
         }
 
         this._map.on('moveend', () => this._updateSelectedMapIfNeeded());
@@ -116,22 +112,20 @@ class IndoorLayer {
      * **************
      */
 
-    addMap(map: IndoorMap) {
+    async addMap(map: IndoorMap) {
         this._indoorMaps.push(map);
-        this._updateSelectedMapIfNeeded();
+        await this._updateSelectedMapIfNeeded();
     }
 
-    removeMap(map: IndoorMap) {
+    async removeMap(map: IndoorMap) {
         this._indoorMaps = this._indoorMaps.filter(_indoorMap => _indoorMap !== map);
-        this._updateSelectedMapIfNeeded();
+        await this._updateSelectedMapIfNeeded();
     }
 
 
     async _updateSelectedMapIfNeeded() {
 
-        if (!this._mapLoaded) {
-            return;
-        }
+        await this._mapLoadedPromise;
 
         // Avoid to call "closestMap" or "updateSelectedMap" if the previous call is not finished yet
         await this._updateMapPromise;
@@ -141,6 +135,7 @@ class IndoorLayer {
                 this._updateSelectedMap(closestMap);
             }
         })();
+        await this._updateMapPromise;
     }
 
     _updateSelectedMap(indoorMap: IndoorMap | null) {
