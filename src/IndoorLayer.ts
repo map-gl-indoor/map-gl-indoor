@@ -1,5 +1,4 @@
 import IndoorMap from './IndoorMap';
-import IndoorControl from './IndoorControl';
 import { overlap, filterWithLevel, distance } from './Utils';
 
 type SavedFilter = {
