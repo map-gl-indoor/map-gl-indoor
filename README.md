@@ -23,7 +23,7 @@ Then use the following code:
 
 ```js
 import { Map } from 'mapbox-gl';
-import { addIndoorTo, IndoorMap } from 'map-gl-indoor';
+import { addIndoorTo, IndoorControl, IndoorMap } from 'map-gl-indoor';
 
 const map = new Map({
     accessToken,
@@ -43,7 +43,7 @@ fetch('maps/gare-de-l-est.geojson')
     });
 
 // Add the specific control
-map.addControl(map.indoor.control);
+map.addControl(new IndoorControl());
 ```
 
 ## Options

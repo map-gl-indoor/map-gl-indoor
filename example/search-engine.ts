@@ -3,7 +3,7 @@ import MapboxGeocoder, { Result } from '@mapbox/mapbox-gl-geocoder';
 import centroid from '@turf/centroid';
 
 import accessToken from './mapbox-access-token';
-import { addIndoorTo, IndoorMap, MapboxMapWithIndoor } from '../src/index';
+import { addIndoorTo, IndoorControl, IndoorMap, MapboxMapWithIndoor } from '../src/index';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
@@ -69,4 +69,4 @@ customGeocoder.on('result', (geocoder: any) => {
 map.addControl(customGeocoder, 'top-left');
 
 // Add the specific control
-map.addControl(map.indoor.control);
+map.addControl(new IndoorControl());

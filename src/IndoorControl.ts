@@ -1,8 +1,8 @@
 import IndoorLayer from './IndoorLayer';
 import IndoorMap from './IndoorMap';
 
-import type { Map } from 'mapbox-gl';
-import type { Level } from './Types';
+import type { Map as MapboxMap } from 'mapbox-gl';
+import type { Level, MapboxMapWithIndoor } from './Types';
 
 /**
  * Creates a indoor control with floors buttons
@@ -11,23 +11,28 @@ import type { Level } from './Types';
  */
 class IndoorControl {
 
-    _indoor: IndoorLayer;
-    _map?: Map;
+    _map?: MapboxMapWithIndoor;
+    _indoor?: IndoorLayer;
     _indoorMap: IndoorMap | null;
 
     _container?: HTMLElement;
     _levelsButtons: Array<HTMLElement>;
     _selectedButton: HTMLElement | null;
 
-    constructor(indoor: IndoorLayer) {
-        this._indoor = indoor;
+    constructor() {
         this._levelsButtons = [];
         this._selectedButton = null;
         this._indoorMap = null;
     }
 
-    onAdd(map: Map) {
-        this._map = map;
+    onAdd(map: MapboxMap | MapboxMapWithIndoor) {
+
+        if ((map as MapboxMapWithIndoor).indoor === undefined) {
+            throw Error('call addIndoorTo(map) before creating the IndoorControl');
+        }
+
+        this._map = map as MapboxMapWithIndoor;
+        this._indoor = this._map.indoor;
 
         // Create container
         const container = this._container = document.createElement("div");
@@ -52,6 +57,7 @@ class IndoorControl {
     }
 
     onRemove() {
+        this._container?.removeEventListener('contextmenu', this._onContextMenu);
         this._container?.remove();
         delete this._container;
 
@@ -64,7 +70,7 @@ class IndoorControl {
     _onMapLoaded = ({ indoorMap }: { indoorMap: IndoorMap }): void => {
         this._indoorMap = indoorMap;
         this._updateNavigationBar();
-        this._setSelected(this._indoor.getLevel());
+        this._setSelected(this._indoor!.getLevel());
     }
 
     _onMapUnLoaded = (): void => {
@@ -120,8 +126,8 @@ class IndoorControl {
         container.appendChild(a);
         a.addEventListener('click', () => {
             this._map?.fire('indoor.control.clicked', { level });
-            if (this._indoor.getLevel() === level) return;
-            this._indoor.setLevel(level);
+            if (this._indoor!.getLevel() === level) return;
+            this._indoor!.setLevel(level);
         });
         return a;
     }

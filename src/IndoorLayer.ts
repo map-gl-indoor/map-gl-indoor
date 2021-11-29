@@ -29,8 +29,6 @@ class IndoorLayer {
     _savedFilters: Array<SavedFilter>;
     _mapLoaded: boolean;
 
-    _control: IndoorControl;
-
     _updateMapPromise: Promise<void>;
 
     constructor(map: Map) {
@@ -44,8 +42,6 @@ class IndoorLayer {
         this._previousSelectedLevel = null;
         this._mapLoaded = false;
         this._updateMapPromise = Promise.resolve();
-
-        this._control = new IndoorControl(this);
 
         if (this._map.loaded()) {
             this._mapLoaded = true;
@@ -78,10 +74,6 @@ class IndoorLayer {
         if (fireEvent) {
             this._map.fire('indoor.level.changed', { level });
         }
-    }
-
-    get control(): IndoorControl {
-        return this._control;
     }
 
     /**

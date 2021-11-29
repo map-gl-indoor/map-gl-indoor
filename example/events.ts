@@ -1,7 +1,7 @@
 import { Map as MapboxMap } from 'mapbox-gl';
 
 import accessToken from './mapbox-access-token';
-import { addIndoorTo, IndoorMap, MapboxMapWithIndoor } from '../src/index';
+import { addIndoorTo, IndoorControl, IndoorMap, MapboxMapWithIndoor } from '../src/index';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 import './style.css';
@@ -31,7 +31,7 @@ fetch('maps/gare-de-l-est.geojson')
     });
 
 // Add the specific control
-map.addControl(map.indoor.control);
+map.addControl(new IndoorControl());
 
 map.on('indoor.map.loaded', console.log);
 map.on('indoor.map.unloaded', console.log);

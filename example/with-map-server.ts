@@ -1,7 +1,7 @@
 import { Map as MapboxMap } from 'mapbox-gl';
 
 import accessToken from './mapbox-access-token';
-import { MapServerHandler } from '../src/index';
+import { IndoorControl, MapServerHandler } from '../src/index';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 import './style.css';
@@ -30,4 +30,4 @@ const indoorMapsOptions = {
 MapServerHandler.manage(SERVER_URL, map, indoorMapsOptions);
 
 // Add the specific control
-// map.addControl(map.indoor.control);
+map.addControl(new IndoorControl());
