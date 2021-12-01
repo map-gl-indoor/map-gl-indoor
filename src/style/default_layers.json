@@ -1,19 +1,21 @@
 [
     {
         "filter": [
-          "any", [
-            "has",
-            "building"
-          ], [
-            "has",
-            "building:part"
-          ]
+            "any",
+            [
+                "has",
+                "building"
+            ],
+            [
+                "has",
+                "building:part"
+            ]
         ],
         "id": "buildings-background",
         "type": "fill",
         "source": "indoor",
         "paint": {
-            "fill-color": "#DCD9D6",
+            "fill-color": "#E6E4E0",
             "fill-opacity": {
                 "base": 1,
                 "stops": [
@@ -39,7 +41,7 @@
         "type": "fill",
         "source": "indoor",
         "paint": {
-            "fill-color": "#DCD9D6",
+            "fill-color": "#E6E4E0",
             "fill-opacity": {
                 "base": 1,
                 "stops": [
@@ -166,9 +168,23 @@
     },
     {
         "filter": [
-            "filter-==",
-            "indoor",
-            "room"
+            "any",
+            [
+                "filter-in-small",
+                "indoor",
+                [
+                    "literal",
+                    [
+                        "room",
+                        "area"
+                    ]
+                ]
+            ],
+            [
+                "filter-==",
+                "railway",
+                "platform"
+            ]
         ],
         "id": "indoor-rooms",
         "type": "fill",
@@ -197,11 +213,6 @@
                 "filter-==",
                 "indoor",
                 "room"
-            ],
-            [
-                "filter-==",
-                "indoor",
-                "area"
             ]
         ],
         "id": "indoor-rooms-borders",
@@ -236,6 +247,75 @@
         "source": "indoor",
         "paint": {
             "fill-color": "#D7CCC8",
+            "fill-opacity": {
+                "base": 1,
+                "stops": [
+                    [
+                        17,
+                        0
+                    ],
+                    [
+                        18,
+                        1
+                    ]
+                ]
+            }
+        }
+    },
+    {
+        "filter": [
+            "all",
+            [
+                "filter-==",
+                "highway",
+                "pedestrian"
+            ],
+            [
+                "has",
+                "level"
+            ]
+        ],
+        "id": "indoor-highways-area",
+        "type": "fill",
+        "source": "indoor",
+        "paint": {
+            "fill-color": {
+                "base": 1,
+                "stops": [
+                    [
+                        16,
+                        "hsl(230, 16%, 94%)"
+                    ],
+                    [
+                        16.25,
+                        "hsl(230, 50%, 98%)"
+                    ]
+                ]
+            },
+            "fill-outline-color": "hsl(230, 26%, 88%)",
+            "fill-opacity": 1
+        }
+    },
+    {
+        "filter": [
+            "all",
+            [
+                "filter-==",
+                "highway",
+                "pedestrian"
+            ],
+            [
+                "has",
+                "level"
+            ]
+        ],
+        "id": "indoor-highways-area-pattern",
+        "type": "fill",
+        "source": "indoor",
+        "paint": {
+            "fill-color": "hsl(0, 0%, 100%)",
+            "fill-outline-color": "hsl(35, 10%, 83%)",
+            "fill-pattern": "pedestrian-polygon",
             "fill-opacity": {
                 "base": 1,
                 "stops": [
@@ -297,6 +377,11 @@
                 "filter-==",
                 "elevator",
                 "yes"
+            ],
+            [
+                "filter-==",
+                "highway",
+                "elevator"
             ]
         ],
         "id": "indoor-stairs",
@@ -425,6 +510,75 @@
     },
     {
         "filter": [
+            "filter-==",
+            "railway",
+            "rail"
+        ],
+        "id": "indoor-rails",
+        "type": "line",
+        "source": "indoor",
+        "paint": {
+            "line-color": "hsl(230, 10%, 74%)",
+            "line-opacity": {
+                "base": 1,
+                "stops": [
+                    [
+                        17,
+                        0
+                    ],
+                    [
+                        19,
+                        1
+                    ]
+                ]
+            }
+        }
+    },
+    {
+        "filter": [
+            "filter-==",
+            "railway",
+            "rail"
+        ],
+        "id": "indoor-rails-tracks",
+        "type": "line",
+        "source": "indoor",
+        "paint": {
+            "line-color": "hsl(230, 10%, 74%)",
+            "line-opacity": {
+                "base": 1,
+                "stops": [
+                    [
+                        17,
+                        0
+                    ],
+                    [
+                        19,
+                        1
+                    ]
+                ]
+            },
+            "line-width": {
+                "base": 1.5,
+                "stops": [
+                    [
+                        14,
+                        4
+                    ],
+                    [
+                        20,
+                        8
+                    ]
+                ]
+            },
+            "line-dasharray": [
+                0.1,
+                15
+            ]
+        }
+    },
+    {
+        "filter": [
             "any",
             [
                 "filter-in-small",
@@ -452,6 +606,11 @@
                 "filter-==",
                 "copier",
                 "yes"
+            ],
+            [
+                "filter-==",
+                "amenity",
+                "vending_machine"
             ]
         ],
         "id": "indoor-furniture",
@@ -476,60 +635,21 @@
         }
     },
     {
-        "filter": [
-            "filter-==",
-            "indoor",
-            "level"
-        ],
-        "id": "level",
-        "type": "line",
-        "source": "indoor",
-        "paint": {
-            "line-color": "#000000",
-            "line-width": {
-                "base": 2,
-                "stops": [
-                    [
-                        16.5,
-                        0
-                    ],
-                    [
-                        18,
-                        2
-                    ]
-                ]
-            },
-            "line-opacity": {
-                "base": 1,
-                "stops": [
-                    [
-                        16.5,
-                        0
-                    ],
-                    [
-                        18,
-                        1
-                    ]
-                ]
-            }
-        }
-    },
-    {
         "id": "indoor-steps",
         "paint": {
             "line-width": {
                 "base": 1.5,
                 "stops": [
                     [
-                        15,
+                        17,
                         1
                     ],
                     [
-                        16,
+                        18,
                         1.6
                     ],
                     [
-                        18,
+                        19,
                         6
                     ]
                 ]
@@ -539,28 +659,28 @@
                 "base": 1,
                 "stops": [
                     [
-                        14,
+                        17,
                         [
                             1,
                             0
                         ]
                     ],
                     [
-                        15,
+                        17.5,
                         [
                             1.75,
                             1
                         ]
                     ],
                     [
-                        16,
+                        18,
                         [
                             1,
                             0.75
                         ]
                     ],
                     [
-                        17,
+                        19,
                         [
                             0.3,
                             0.3
@@ -572,11 +692,11 @@
                 "base": 1,
                 "stops": [
                     [
-                        14,
+                        17,
                         0
                     ],
                     [
-                        14.25,
+                        17.25,
                         1
                     ]
                 ]
@@ -610,15 +730,15 @@
                 "base": 1.5,
                 "stops": [
                     [
-                        15,
+                        17,
                         1
                     ],
                     [
-                        16,
+                        18,
                         1.6
                     ],
                     [
-                        18,
+                        19,
                         6
                     ]
                 ]
@@ -628,28 +748,28 @@
                 "base": 1,
                 "stops": [
                     [
-                        14,
+                        17,
                         [
                             1,
                             0
                         ]
                     ],
                     [
-                        15,
+                        17.5,
                         [
                             1.75,
                             1
                         ]
                     ],
                     [
-                        16,
+                        18,
                         [
                             1,
                             0.75
                         ]
                     ],
                     [
-                        17,
+                        19,
                         [
                             0.3,
                             0.3
@@ -661,11 +781,11 @@
                 "base": 1,
                 "stops": [
                     [
-                        14,
+                        17,
                         0
                     ],
                     [
-                        14.25,
+                        17.25,
                         1
                     ]
                 ]

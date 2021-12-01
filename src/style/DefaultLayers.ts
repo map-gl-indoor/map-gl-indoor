@@ -10,7 +10,12 @@ let layers: Array<LayerSpecification> = defaultLayers;
 
 const POI_LAYER_ID = "poi-indoor";
 
-const OSM_FILTER_MAPBOX_MAKI_LIST = [
+type FilterMakiEntry = {
+    filter: any,
+    maki: string
+}
+
+const OSM_FILTER_MAPBOX_MAKI_LIST: FilterMakiEntry[] = [
     {
         filter: ['filter-==', 'amenity', 'fast_food'],
         maki: 'fast-food'
@@ -24,12 +29,20 @@ const OSM_FILTER_MAPBOX_MAKI_LIST = [
         maki: 'cafe'
     },
     {
-        filter: ['filter-==', 'amenity', 'bank'],
+        filter: ['filter-in-small', 'amenity', ['literal', ['bank', 'vending_machine']]],
         maki: 'bank'
     },
     {
         filter: ['filter-==', 'amenity', 'toilets'],
         maki: 'toilet'
+    },
+    {
+        filter: ['any', ['filter-==', 'highway', 'elevator'], ['has', 'elevator']],
+        maki: 'triangle-stroked'
+    },
+    {
+        filter: ['filter-==', 'natural', 'tree'],
+        maki: 'park'
     },
     {
         filter: ['filter-==', 'shop', 'travel_agency'],
@@ -54,22 +67,42 @@ const OSM_FILTER_MAPBOX_MAKI_LIST = [
     {
         filter: ['filter-==', 'highway', 'steps'],
         maki: 'entrance'
-    },
-    {
-        filter: ['has', 'shop'],
-        maki: 'shop'
     }
 ];
 
 function createPoiLayers(metaLayer: LayerSpecification): Array<LayerSpecification> {
-    return OSM_FILTER_MAPBOX_MAKI_LIST.map(poi => {
-        const newLayer = Object.assign({}, metaLayer);
-        newLayer.id += `-${poi.maki}`;
-        newLayer.filter = poi.filter;
-        newLayer.layout = Object.assign({}, metaLayer.layout);
-        newLayer.layout['icon-image'] = `${poi.maki}-15`;
-        return newLayer;
-    });
+
+    const otherShopsEntry =
+    {
+        filter:
+            ['all',
+                ['has', 'shop'],
+                ['!',
+                    [
+                        "filter-in-small",
+                        "shop",
+                        [
+                            "literal",
+                            OSM_FILTER_MAPBOX_MAKI_LIST
+                                .filter(val => val.filter[1] === 'shop')
+                                .map(val => val.filter[2])
+                        ]
+                    ]
+                ]
+            ],
+        maki: 'shop'
+    };
+
+    return OSM_FILTER_MAPBOX_MAKI_LIST
+        .concat(otherShopsEntry)
+        .map(poi => {
+            const newLayer = Object.assign({}, metaLayer);
+            newLayer.id += `-${poi.maki}`;
+            newLayer.filter = poi.filter;
+            newLayer.layout = Object.assign({}, metaLayer.layout);
+            newLayer.layout['icon-image'] = `${poi.maki}-15`;
+            return newLayer;
+        });
 }
 
 const poiLayer = layers.find(layer => layer.id === POI_LAYER_ID);
