@@ -1,4 +1,4 @@
-# Mapbox GL Indoor Plugin
+# MapGL Indoor Plugin
 
 A [mapboxgl-js](https://github.com/mapbox/mapbox-gl-js) plugin to enable multi-floors maps
 
