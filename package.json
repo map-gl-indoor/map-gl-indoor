@@ -14,7 +14,8 @@
     "build": "tsc && vite build",
     "serve": "vite preview",
     "lint": "eslint --ext .js,.ts src",
-    "build-dts": "dts-bundle-generator -o dist/map-gl-indoor.d.ts src/index.ts"
+    "build-dts": "dts-bundle-generator -o dist/map-gl-indoor.d.ts src/index.ts",
+    "prepublishOnly": "npm run build && npm run build-dts"
   },
   "repository": {
     "type": "git",
