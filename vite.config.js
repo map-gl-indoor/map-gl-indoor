@@ -8,14 +8,6 @@ export default defineConfig({
             entry: resolve(__dirname, 'src/index.ts'),
             name: 'mapgl_indoor',
             fileName: (format) => `map-gl-indoor.${format}.js`
-        },
-        rollupOptions: {
-            external: ['mapbox-gl'],
-            output: {
-                globals: {
-                    'mapbox-gl': 'mapboxgl'
-                }
-            }
         }
     }
 });

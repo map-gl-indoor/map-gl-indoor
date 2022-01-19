@@ -1,5 +1,6 @@
+import { default as turfDistance } from '@turf/distance';
 import IndoorMap from './IndoorMap';
-import { overlap, filterWithLevel, distance } from './Utils';
+import { overlap, filterWithLevel, bboxCenter } from './Utils';
 
 type SavedFilter = {
     layerId: string,
@@ -8,6 +9,7 @@ type SavedFilter = {
 
 import type { Map } from 'mapbox-gl';
 import type { Level, FilterSpecification, LayerSpecification } from './Types';
+import type { BBox } from 'geojson';
 
 const SOURCE_ID = 'indoor';
 
@@ -196,8 +198,14 @@ class IndoorLayer {
         }
 
         const cameraBounds = this._map.getBounds();
+        const cameraBoundsTurf = [
+            cameraBounds.getWest(), 
+            cameraBounds.getSouth(), 
+            cameraBounds.getEast(), 
+            cameraBounds.getNorth()
+        ] as BBox;
         const mapsInBounds = this._indoorMaps.filter(indoorMap =>
-            overlap(indoorMap.bounds, cameraBounds)
+            overlap(indoorMap.bounds, cameraBoundsTurf)
         );
 
         if (mapsInBounds.length === 0) {
@@ -214,7 +222,7 @@ class IndoorLayer {
         let minDist = Number.POSITIVE_INFINITY;
         let closestMap = mapsInBounds[0];
         for (const map of mapsInBounds) {
-            const _dist = distance(map.bounds.getCenter(), cameraBounds.getCenter());
+            const _dist = turfDistance(bboxCenter(map.bounds), bboxCenter(cameraBoundsTurf));
             if (_dist < minDist) {
                 closestMap = map;
                 minDist = _dist;

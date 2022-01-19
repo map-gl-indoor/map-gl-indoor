@@ -1,10 +1,9 @@
-import { LngLatBounds } from 'mapbox-gl';
-
 import addIndoorTo from './addIndoorTo';
 import IndoorMap from './IndoorMap';
-import { destinationPoint, distance } from './Utils';
+import { destinationPoint, distance, bboxContains } from './Utils';
 
 import type { MapboxMapWithIndoor, IndoorMapOptions } from './Types';
+import type { BBox } from 'geojson';
 import type { Map as MapboxMap } from 'mapbox-gl';
 
 type RemoteMap = {
@@ -22,7 +21,7 @@ class MapServerHandler {
 
     map: MapboxMapWithIndoor;
     remoteMapsDownloaded: RemoteMap[];
-    downloadedBounds: LngLatBounds | null;
+    downloadedBounds: BBox | null;
 
     loadMapsPromise: Promise<void> = Promise.resolve();
 
@@ -51,8 +50,8 @@ class MapServerHandler {
 
         const viewPort = this.map.getBounds();
         if (this.downloadedBounds !== null) {
-            if (this.downloadedBounds.contains(viewPort.getNorthEast()) &&
-                this.downloadedBounds.contains(viewPort.getSouthWest())) {
+            if (bboxContains(this.downloadedBounds, viewPort.getNorthEast().toArray()) &&
+                bboxContains(this.downloadedBounds, viewPort.getSouthWest().toArray())) {
                 // Maps of the viewport have already been downloaded.
                 return;
             }
@@ -68,7 +67,7 @@ class MapServerHandler {
         const dist = bestSizeOfAreaToDownload * Math.sqrt(2);
         const northEast = destinationPoint(center, dist, Math.PI / 4);
         const southWest = destinationPoint(center, dist, - 3 * Math.PI / 4);
-        const boundsToDownload = new LngLatBounds(southWest, northEast);
+        const boundsToDownload = [southWest[1], southWest[0], northEast[1], northEast[0]] as BBox;
 
         // TODO: I put this here because fetch is async and takes more time than the next call to loadMapsIfNecessary.
         this.downloadedBounds = boundsToDownload;
@@ -77,8 +76,8 @@ class MapServerHandler {
         this.loadMapsPromise = this.loadMapsInBounds(boundsToDownload);
     }
 
-    private loadMapsInBounds = async (bounds: LngLatBounds) => {
-        const url = this.serverUrl + `/maps-in-bounds/${bounds.getWest()},${bounds.getSouth()},${bounds.getEast()},${bounds.getNorth()}`;
+    private loadMapsInBounds = async (bounds: BBox) => {
+        const url = this.serverUrl + `/maps-in-bounds/${bounds[0]},${bounds[1]},${bounds[2]},${bounds[3]}`;
         const maps: RemoteMap[] = await (await fetch(url)).json();
 
         const mapsToRemove = this.remoteMapsDownloaded.reduce((acc: RemoteMap[], map) => {

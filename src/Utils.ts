@@ -1,18 +1,21 @@
-import { LngLat, LngLatBounds } from 'mapbox-gl';
+import { default as turfDistance } from '@turf/distance';
+import { default as turfDestination } from '@turf/destination';
 
 import type { FilterSpecification, Level } from './Types';
+import type { BBox, Position } from 'geojson';
+import type { LngLat } from 'mapbox-gl';
 
 export const EarthRadius = 6371008.8;
 
-export function overlap(bounds1: LngLatBounds, bounds2: LngLatBounds) {
+export function overlap(bounds1: BBox, bounds2: BBox) {
 
     // If one rectangle is on left side of other
-    if (bounds1.getWest() > bounds2.getEast() || bounds2.getWest() > bounds1.getEast()) {
+    if (bounds1[0] > bounds2[2] || bounds2[0] > bounds1[2]) {
         return false;
     }
 
     // If one rectangle is above other
-    if (bounds1.getNorth() < bounds2.getSouth() || bounds2.getNorth() < bounds1.getSouth()) {
+    if (bounds1[3] < bounds2[1] || bounds2[3] < bounds1[1]) {
         return false;
     }
 
@@ -95,41 +98,28 @@ export function filterWithLevel(initialFilter: FilterSpecification, level: Level
 }
 
 
-export function destinationPoint(start: LngLat, distance: number, bearing: number) : LngLat {
-    const dR = distance / EarthRadius;
-    const cosDr = Math.cos(dR);
-    const sinDr = Math.sin(dR);
-
-    const phi1 = start.lat / 180 * Math.PI;
-    const lambda1 = start.lng / 180 * Math.PI;
-
-    const phi2 = Math.asin( Math.sin(phi1) * cosDr
-        + Math.cos(phi1) * sinDr * Math.cos(bearing)
-    );
-    const lambda2 = lambda1 + Math.atan2(
-        Math.sin(bearing) * sinDr * Math.cos(phi1),
-        cosDr - Math.sin(phi1) * Math.sin(phi2)
-    );
-
-    return new LngLat(lambda2 * 180 / Math.PI, phi2 * 180 / Math.PI);
+export function destinationPoint(start: LngLat, distance: number, bearing: number): Position {
+    return turfDestination(start.toArray(), distance, bearing).geometry.coordinates;
 }
 
-export function distance(point1: LngLat, point2: LngLat) : number {
+export function distance(point1: LngLat, point2: LngLat): number {
+    return turfDistance(point1.toArray(), point2.toArray());
+}
 
-    const lat1 = point1.lat / 180 * Math.PI;
-    const lng1 = point1.lng / 180 * Math.PI;
+export function bboxCenter(bbox: BBox): Position {
+    const [west, south, east, north] = bbox;
+    return [(west + east) / 2, (south + north) / 2];
+}
 
-    const lat2 = point2.lat / 180 * Math.PI;
-    const lng2 = point2.lng / 180 * Math.PI;
+export function bboxContains(bbox: BBox, point: Position): Boolean {
+    const [west, south, east, north] = bbox;
+    const [lng, lat] = point;
 
-    const dlat = lat2 - lat1;
-    const dlng = lng2 - lng1;
+    const containsLatitude = south <= lat && lat <= north;
+    let containsLongitude = west <= lng && lng <= east;
+    if (west > east) {
+        containsLongitude = west >= lng && lng >= east;
+    }
 
-    const angle = Math.sin(dlat / 2) ** 2 + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dlng / 2) ** 2;
-
-    const tangy = Math.sqrt(angle);
-    const tangx = Math.sqrt(1 - angle);
-    const cosn = 2 * Math.atan2(tangy, tangx);
-
-    return EarthRadius * cosn;
+    return containsLatitude && containsLongitude;
 }

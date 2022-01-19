@@ -3,10 +3,10 @@ import GeoJsonHelper from './GeojsonHelper';
 
 
 import type { LevelsRange, IndoorMapGeoJSON, IndoorMapOptions, LayerSpecification } from './Types';
-import type { LngLatBounds } from 'mapbox-gl';
+import type { BBox } from 'geojson';
 
 class IndoorMap {
-    bounds: LngLatBounds;
+    bounds: BBox;
     geojson: IndoorMapGeoJSON;
     layers: Array<LayerSpecification>;
     levelsRange: LevelsRange;
@@ -15,7 +15,7 @@ class IndoorMap {
     defaultLevel: number;
     showFeaturesWithEmptyLevel: boolean;
 
-    constructor(bounds: LngLatBounds,
+    constructor(bounds: BBox,
         geojson: IndoorMapGeoJSON,
         layers: Array<LayerSpecification>,
         levelsRange: LevelsRange,
