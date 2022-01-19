@@ -1,8 +1,7 @@
 import IndoorLayer from './IndoorLayer';
 import IndoorMap from './IndoorMap';
 
-import type { Map as MapboxMap } from 'mapbox-gl';
-import type { Level, MapboxMapWithIndoor } from './Types';
+import type { Level, MapGL, MapGLWithIndoor } from './Types';
 
 /**
  * Creates a indoor control with floors buttons
@@ -11,7 +10,7 @@ import type { Level, MapboxMapWithIndoor } from './Types';
  */
 class IndoorControl {
 
-    _map?: MapboxMapWithIndoor;
+    _map?: MapGLWithIndoor;
     _indoor?: IndoorLayer;
     _indoorMap: IndoorMap | null;
 
@@ -25,13 +24,13 @@ class IndoorControl {
         this._indoorMap = null;
     }
 
-    onAdd(map: MapboxMap | MapboxMapWithIndoor) {
+    onAdd(map: MapGL | MapGLWithIndoor) {
 
-        if ((map as MapboxMapWithIndoor).indoor === undefined) {
+        if ((map as any).indoor === undefined) {
             throw Error('call addIndoorTo(map) before creating the IndoorControl');
         }
 
-        this._map = map as MapboxMapWithIndoor;
+        this._map = map as MapGLWithIndoor;
         this._indoor = this._map.indoor;
 
         // Create container
@@ -49,9 +48,9 @@ class IndoorControl {
         }
 
         // Register to indoor events
-        map.on('indoor.map.loaded', this._onMapLoaded);
-        map.on('indoor.map.unloaded', this._onMapUnLoaded);
-        map.on('indoor.level.changed', this._onLevelChanged);
+        this._map.on('indoor.map.loaded', this._onMapLoaded);
+        this._map.on('indoor.map.unloaded', this._onMapUnLoaded);
+        this._map.on('indoor.level.changed', this._onLevelChanged);
 
         return container;
     }

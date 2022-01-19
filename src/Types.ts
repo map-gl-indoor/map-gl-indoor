@@ -1,5 +1,7 @@
 import type { FeatureCollection, Geometry } from 'geojson';
 import type { Map as MapboxMap } from 'mapbox-gl';
+import type { Map as MaplibreMap, Listener as MaplibreListener } from 'maplibre-gl';
+
 import type IndoorLayer from './IndoorLayer';
 
 export type Level = number;
@@ -23,6 +25,20 @@ export type IndoorMapGeoJSON = FeatureCollection<Geometry>;
 export type LayerSpecification = any;
 export type FilterSpecification = any[] | null;
 
+export type MapGL = MapboxMap | MaplibreMap;
+
 export type MapboxMapWithIndoor = MapboxMap & {
-    indoor: IndoorLayer
+    indoor: IndoorLayer,
 };
+
+export type IndoorMapEvent = 'indoor.map.loaded'
+    | 'indoor.map.unloaded'
+    | 'indoor.level.changed';
+
+export type MaplibreMapWithIndoor = MaplibreMap & {
+    indoor: IndoorLayer,
+    on(type: IndoorMapEvent, listener: MaplibreListener): MaplibreMap;
+    off(type: IndoorMapEvent, listener: MaplibreListener): MaplibreMap;
+};
+
+export type MapGLWithIndoor = MapboxMapWithIndoor | MaplibreMapWithIndoor;

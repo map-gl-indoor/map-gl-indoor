@@ -1,10 +1,12 @@
+import { default as turfDestination } from '@turf/destination';
+import { default as turfDistance } from '@turf/distance';
+
 import addIndoorTo from './addIndoorTo';
 import IndoorMap from './IndoorMap';
-import { destinationPoint, distance, bboxContains } from './Utils';
+import { bboxContains } from './Utils';
 
-import type { MapboxMapWithIndoor, IndoorMapOptions } from './Types';
+import type { MapGL, MapGLWithIndoor, IndoorMapOptions } from './Types';
 import type { BBox } from 'geojson';
-import type { Map as MapboxMap } from 'mapbox-gl';
 
 type RemoteMap = {
     name: string,
@@ -19,7 +21,7 @@ class MapServerHandler {
 
     serverUrl: string;
 
-    map: MapboxMapWithIndoor;
+    map: MapGLWithIndoor;
     remoteMapsDownloaded: RemoteMap[];
     downloadedBounds: BBox | null;
 
@@ -27,7 +29,7 @@ class MapServerHandler {
 
     indoorMapOptions?: IndoorMapOptions;
 
-    private constructor(serverUrl: string, map: MapboxMapWithIndoor, indoorMapOptions?: IndoorMapOptions) {
+    private constructor(serverUrl: string, map: MapGLWithIndoor, indoorMapOptions?: IndoorMapOptions) {
         this.serverUrl = serverUrl;
         this.map = map;
         this.indoorMapOptions = indoorMapOptions;
@@ -57,16 +59,16 @@ class MapServerHandler {
             }
         }
 
-        const distanceEastWest = distance(viewPort.getNorthEast(), viewPort.getNorthWest());
-        const distanceNorthSouth = distance(viewPort.getNorthEast(), viewPort.getSouthEast());
+        const distanceEastWest = turfDistance(viewPort.getNorthEast().toArray(), viewPort.getNorthWest().toArray());
+        const distanceNorthSouth = turfDistance(viewPort.getNorthEast().toArray(), viewPort.getSouthEast().toArray());
         // It is not necessary to compute others as we are at zoom >= 17, the approximation is enough.
         const maxDistanceOnScreen = Math.max(distanceEastWest, distanceNorthSouth);
         const bestSizeOfAreaToDownload = Math.max(AREA_TO_DOWNLOAD, maxDistanceOnScreen * 2);
 
         const center = this.map.getCenter();
         const dist = bestSizeOfAreaToDownload * Math.sqrt(2);
-        const northEast = destinationPoint(center, dist, Math.PI / 4);
-        const southWest = destinationPoint(center, dist, - 3 * Math.PI / 4);
+        const northEast = turfDestination(center.toArray(), dist, Math.PI / 4).geometry.coordinates;
+        const southWest = turfDestination(center.toArray(), dist, - 3 * Math.PI / 4).geometry.coordinates;
         const boundsToDownload = [southWest[1], southWest[0], northEast[1], northEast[0]] as BBox;
 
         // TODO: I put this here because fetch is async and takes more time than the next call to loadMapsIfNecessary.
@@ -111,7 +113,7 @@ class MapServerHandler {
     }
 
 
-    static manage(server: string, map: MapboxMap, indoorMapOptions?: IndoorMapOptions) {
+    static manage(server: string, map: MapGL, indoorMapOptions?: IndoorMapOptions) {
         return new MapServerHandler(server, addIndoorTo(map), indoorMapOptions);
     }
 

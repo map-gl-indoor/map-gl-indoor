@@ -1,9 +1,8 @@
 import IndoorLayer from './IndoorLayer';
 
-import type { MapboxMapWithIndoor } from './Types';
-import type { Map as MapboxMap } from 'mapbox-gl';
+import type { MapGLWithIndoor, MapGL } from './Types';
 
-export default function addIndoorTo(map: MapboxMap): MapboxMapWithIndoor {
+export default function addIndoorTo(map: MapGL): MapGLWithIndoor {
     Object.defineProperty(
         map,
         'indoor',
@@ -16,5 +15,5 @@ export default function addIndoorTo(map: MapboxMap): MapboxMapWithIndoor {
             }
         });
 
-    return map as MapboxMapWithIndoor;
+    return map as MapGLWithIndoor;
 }

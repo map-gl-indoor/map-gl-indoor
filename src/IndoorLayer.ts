@@ -7,8 +7,7 @@ type SavedFilter = {
     filter: FilterSpecification
 }
 
-import type { Map } from 'mapbox-gl';
-import type { Level, FilterSpecification, LayerSpecification } from './Types';
+import type { Level, FilterSpecification, LayerSpecification, MapGL} from './Types';
 import type { BBox } from 'geojson';
 
 const SOURCE_ID = 'indoor';
@@ -19,7 +18,7 @@ const SOURCE_ID = 'indoor';
  */
 class IndoorLayer {
 
-    _map: Map;
+    _map: MapGL;
     _level: Level | null;
 
     _indoorMaps: Array<IndoorMap>;
@@ -32,7 +31,7 @@ class IndoorLayer {
 
     _updateMapPromise: Promise<void>;
 
-    constructor(map: Map) {
+    constructor(map: MapGL) {
         this._map = map;
         this._level = null;
 

@@ -1,9 +1,5 @@
-import { default as turfDistance } from '@turf/distance';
-import { default as turfDestination } from '@turf/destination';
-
 import type { FilterSpecification, Level } from './Types';
 import type { BBox, Position } from 'geojson';
-import type { LngLat } from 'mapbox-gl';
 
 export const EarthRadius = 6371008.8;
 
@@ -95,15 +91,6 @@ export function filterWithLevel(initialFilter: FilterSpecification, level: Level
             ]
         ]
     ];
-}
-
-
-export function destinationPoint(start: LngLat, distance: number, bearing: number): Position {
-    return turfDestination(start.toArray(), distance, bearing).geometry.coordinates;
-}
-
-export function distance(point1: LngLat, point2: LngLat): number {
-    return turfDistance(point1.toArray(), point2.toArray());
 }
 
 export function bboxCenter(bbox: BBox): Position {
