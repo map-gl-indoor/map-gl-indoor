@@ -13,8 +13,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
-    "rootDir": ".",
-    "skipLibCheck": true
+    "rootDir": "./"
   },
   "include": ["./src", "./example"],
 }
