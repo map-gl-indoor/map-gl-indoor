@@ -67,4 +67,4 @@ Have a look at the side project [indoor-maps-server](https://github.com/map-gl-i
 
     npm install & npm run dev
 
-Then, visit http://localhost:3000/example to load the samples
+Then, visit http://localhost:3000/example/ to load the samples
