@@ -1,7 +1,7 @@
 {
   "name": "map-gl-indoor",
   "description": "A MapGL plugin to visualize multi-level buildings",
-  "version": "0.4.3",
+  "version": "0.5.0",
   "main": "dist/map-gl-indoor.umd.js",
   "module": "dist/map-gl-indoor.es.js",
   "types": "dist/map-gl-indoor.d.ts",
