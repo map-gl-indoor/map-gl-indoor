@@ -86,9 +86,19 @@ class IndoorLayer {
         });
     }
 
+    addLayerForFiltering(layer: LayerSpecification, beforeLayerId?: string) {
+        this._addLayerForFiltering(layer, beforeLayerId);
+        this._updateFiltering();
+    }
+
     _removeLayerForFiltering(layerId: string) {
         this._savedFilters = this._savedFilters.filter(({ layerId: id }) => layerId !== id);
         this._map.removeLayer(layerId);
+    }
+
+    removeLayerForFiltering(layerId: string) {
+        this._removeLayerForFiltering(layerId);
+        this._updateFiltering();
     }
 
     _updateFiltering() {
