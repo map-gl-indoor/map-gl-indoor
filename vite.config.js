@@ -9,6 +9,7 @@ export default defineConfig({
             entry: resolve(__dirname, 'src/index.ts'),
             name: 'mapgl_indoor',
             fileName: (format) => `map-gl-indoor.${format}.js`
-        }
+        },
+        outDir: resolve(__dirname, 'dist'),
     }
 });
