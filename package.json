@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "@map-gl-indoor/osmtogeojson": "^3.0.0-beta.5",
-    "@mapbox/mapbox-gl-geocoder": "^4.7.4",
+    "@mapbox/mapbox-gl-geocoder": "^2.3.0",
     "@turf/centroid": "^6.5.0",
     "@types/geojson": "^7946.0.8",
     "@types/mapbox__mapbox-gl-geocoder": "^4.7.2",
