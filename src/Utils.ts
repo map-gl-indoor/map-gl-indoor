@@ -1,4 +1,4 @@
-import type { FilterSpecification, Level } from './Types';
+import type { ExpressionSpecification, Level } from './Types';
 import type { BBox, Position } from 'geojson';
 
 export const EarthRadius = 6371008.8;
@@ -18,7 +18,7 @@ export function overlap(bounds1: BBox, bounds2: BBox) {
     return true;
 }
 
-export function filterWithLevel(initialFilter: FilterSpecification, level: Level, showFeaturesWithEmptyLevel: boolean = false): any {
+export function filterWithLevel(initialFilter: ExpressionSpecification, level: Level, showFeaturesWithEmptyLevel: boolean = false): ExpressionSpecification {
     return [
         "all",
         initialFilter,

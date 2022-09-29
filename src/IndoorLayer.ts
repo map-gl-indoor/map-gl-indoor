@@ -2,13 +2,13 @@ import { default as turfDistance } from '@turf/distance';
 import IndoorMap from './IndoorMap';
 import { overlap, filterWithLevel, bboxCenter } from './Utils';
 
+import type { Level, ExpressionSpecification, LayerSpecification, MapGL} from './Types';
+import type { BBox } from 'geojson';
+
 type SavedFilter = {
     layerId: string,
-    filter: FilterSpecification
+    filter: ExpressionSpecification
 }
-
-import type { Level, FilterSpecification, LayerSpecification, MapGL} from './Types';
-import type { BBox } from 'geojson';
 
 const SOURCE_ID = 'indoor';
 
@@ -82,7 +82,7 @@ class IndoorLayer {
         this._map.addLayer(layer, beforeLayerId);
         this._savedFilters.push({
             layerId: layer.id,
-            filter: this._map.getFilter(layer.id) || ["all"]
+            filter: this._map.getFilter(layer.id) as ExpressionSpecification || ["all"]
         });
     }
 
@@ -104,15 +104,17 @@ class IndoorLayer {
     _updateFiltering() {
         const level = this._level;
 
-        let filterFn: (filter: FilterSpecification) => FilterSpecification;
+        let filterFn: (filter: ExpressionSpecification) => ExpressionSpecification;
         if (level !== null) {
             const showFeaturesWithEmptyLevel = this._selectedMap ? this._selectedMap.showFeaturesWithEmptyLevel : false;
-            filterFn = (filter: FilterSpecification) => filterWithLevel(filter, level, showFeaturesWithEmptyLevel);
+            filterFn = (filter: ExpressionSpecification) => filterWithLevel(filter, level, showFeaturesWithEmptyLevel);
         } else {
-            filterFn = (filter: FilterSpecification): FilterSpecification => filter;
+            filterFn = (filter: ExpressionSpecification): ExpressionSpecification => filter;
         }
 
-        this._savedFilters.forEach(({ layerId, filter }) => this._map.setFilter(layerId, filterFn(filter)));
+        this._savedFilters.forEach(({ layerId, filter }) => {
+            this._map.setFilter(layerId, filterFn(filter))
+        });
     }
 
 

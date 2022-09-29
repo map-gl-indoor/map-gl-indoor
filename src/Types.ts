@@ -1,6 +1,12 @@
 import type { FeatureCollection, Geometry } from 'geojson';
-import type { Map as MapboxMap } from 'mapbox-gl';
-import type { Map as MaplibreMap, Listener as MaplibreListener } from 'maplibre-gl';
+import type { 
+    Map as MapboxMap
+} from 'mapbox-gl';
+import type { 
+    Map as MaplibreMap, 
+    Listener as MaplibreListener, 
+    ExpressionSpecification as MaplibreExpressionSpecification
+} from 'maplibre-gl';
 
 import type IndoorLayer from './IndoorLayer';
 
@@ -23,7 +29,7 @@ export type IndoorMapGeoJSON = FeatureCollection<Geometry>;
 
 // The two following types should come from mapboxgl-style-spec
 export type LayerSpecification = any;
-export type FilterSpecification = any[] | null;
+export type ExpressionSpecification = MaplibreExpressionSpecification;
 
 export type MapGL = MapboxMap | MaplibreMap;
 
