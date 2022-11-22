@@ -20,8 +20,11 @@ jobs:
     - name: Install
       run: npm ci
 
-    - name: Build
-      run: npm run build
+    - name: Build Lib
+      run: npm run build-lib
+
+    - name: Build Examples
+      run: npm run build-examples
 
     - name: Build DTS
       run: npm run build-dts
