@@ -10,13 +10,13 @@
   ],
   "private": false,
   "scripts": {
-    "dev": "vite -c vite.example.config.js",
+    "dev": "vite -c vite.examples.config.js",
     "build-lib": "tsc && vite build --emptyOutDir -c vite.lib.config.js",
-    "build-example": "tsc && vite build --emptyOutDir -c vite.example.config.js",
+    "build-examples": "tsc && vite build --emptyOutDir -c vite.examples.config.js",
     "serve": "vite preview",
     "lint": "eslint --ext .js,.ts src",
     "build-dts": "dts-bundle-generator -o dist/lib/map-gl-indoor.d.ts src/index.ts",
-    "prepublishOnly": "npm run build-lib && npm run build-example && npm run build-dts"
+    "prepublishOnly": "npm run build-lib && npm run build-examples && npm run build-dts"
   },
   "repository": {
     "type": "git",

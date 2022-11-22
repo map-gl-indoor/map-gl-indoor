@@ -15,5 +15,5 @@
     "noImplicitReturns": true,
     "rootDir": "./"
   },
-  "include": ["./src", "./example"],
+  "include": ["./src", "./examples"],
 }
