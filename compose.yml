@@ -1,0 +1,34 @@
+# Build and run the examples without a local node toolchain.
+# Works with both `docker compose` and `podman-compose`.
+#
+#   docker compose up dev        # live dev server on http://localhost:5173
+#   docker compose run build     # one-shot: lib + examples + typings into dist/
+#   docker compose up preview    # serve the built examples on http://localhost:4173
+services:
+  dev:
+    image: docker.io/library/node:22-alpine
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: sh -c "npm install --no-audit --no-fund && npm run dev -- --host 0.0.0.0"
+    ports:
+      - "5173:5173"
+    environment:
+      # vite HMR behind a proxy: override if needed (see issue #15)
+      - CHOKIDAR_USEPOLLING=1
+
+  build:
+    image: docker.io/library/node:22-alpine
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: sh -c "npm install --no-audit --no-fund && npm run build-lib && npm run build-examples && npm run build-dts"
+
+  preview:
+    image: docker.io/library/node:22-alpine
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: sh -c "npm install --no-audit --no-fund && npx vite preview --outDir dist/examples --host 0.0.0.0 --port 4173"
+    ports:
+      - "4173:4173"
