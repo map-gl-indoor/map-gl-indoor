@@ -37,6 +37,8 @@ const outDir = resolve(__dirname, 'dist', 'examples');
 
 export default defineConfig({
     root: examplesPath,
+    // relative asset paths, so the built examples work from any subpath
+    base: './',
     build: {
         outDir,
         sourcemap: true,
