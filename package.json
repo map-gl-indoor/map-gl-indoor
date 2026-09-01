@@ -16,7 +16,8 @@
     "serve": "vite preview",
     "lint": "eslint --ext .js,.ts src",
     "build-dts": "dts-bundle-generator -o dist/lib/map-gl-indoor.d.ts src/index.ts",
-    "prepublishOnly": "npm run build-lib && npm run build-examples && npm run build-dts"
+    "prepublishOnly": "npm run build-lib && npm run build-examples && npm run build-dts",
+    "prepare": "npm run build-lib && npm run build-dts"
   },
   "repository": {
     "type": "git",

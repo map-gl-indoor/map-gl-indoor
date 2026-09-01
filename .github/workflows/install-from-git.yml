@@ -1,0 +1,57 @@
+# Proves the fix for #16: installing straight from GitHub must ship a working dist/.
+name: install-from-git
+
+on: [push, pull_request]
+
+jobs:
+  install-from-git:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install this repo as a git dependency
+        run: |
+          mkdir /tmp/consumer && cd /tmp/consumer
+          npm init -y
+          npm install "git+file://$GITHUB_WORKSPACE"
+
+      - name: dist/ must exist in the installed package
+        run: |
+          cd /tmp/consumer
+          test -f node_modules/map-gl-indoor/dist/lib/map-gl-indoor.umd.js
+          test -f node_modules/map-gl-indoor/dist/lib/map-gl-indoor.es.js
+          test -f node_modules/map-gl-indoor/dist/lib/map-gl-indoor.d.ts
+
+      - name: and it must be requirable
+        run: |
+          cd /tmp/consumer
+          node -e "const m = require('map-gl-indoor'); if (!m.IndoorMap || !m.addIndoorTo) throw new Error('exports missing'); console.log('exports OK:', Object.keys(m).join(', '))"
+
+  compose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build via compose
+        run: docker compose run --rm build
+
+      - name: Built files exist
+        run: |
+          test -f dist/lib/map-gl-indoor.umd.js
+          test -f dist/lib/map-gl-indoor.d.ts
+          test -f dist/examples/index.html
+
+      - name: Preview serves the examples
+        run: |
+          docker compose up -d preview
+          ok=""
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost:4173/simple-map.html > /dev/null; then ok=1; break; fi
+            sleep 2
+          done
+          docker compose down
+          test -n "$ok"
