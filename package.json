@@ -60,7 +60,7 @@
     "@turf/destination": "^6.5.0",
     "@turf/distance": "^6.5.0",
     "mapbox-gl": "^1.13.2",
-    "maplibre-gl": "^2.4.0"
+    "maplibre-gl": "^6.4.1"
   },
   "exports": {
     ".": {
